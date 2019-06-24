@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'apps.user',
     'apps.goods',
     'rest_framework',
+    'django_mysql',
 ]
 
 MIDDLEWARE = [
