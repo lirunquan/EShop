@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.user',
     'apps.goods',
+    'apps.record',
+    'apps.order',
     'rest_framework',
     'django_mysql',
 ]
