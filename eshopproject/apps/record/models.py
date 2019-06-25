@@ -3,6 +3,7 @@ from django.utils import timezone
 from django_mysql.models import JSONField
 from apps.user.models import Clerk
 from apps.order.models import Order
+import time
 # Create your models here.
 class Record(models.Model):
 	createAt = models.DateTimeField(auto_now_add=True)

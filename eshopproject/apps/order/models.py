@@ -3,6 +3,7 @@ from django.utils import timezone
 from django_mysql.models import JSONField
 from apps.goods.models import Goods
 from apps.user.models import Customer
+import time
 # Create your models here.
 class RecieveInfo(models.Model):
 	reciever = models.CharField(max_length=50, verbose_name='reciever_name')
@@ -11,8 +12,8 @@ class RecieveInfo(models.Model):
 	postcode = models.CharField(max_length=6)
 class Order(models.Model):
 	code = models.CharField(max_length=10, verbose_name='order_code')
-	createAt = models.DateTimeField(verbose_name='create_at', auto_now_add=True)
-	updateAt = models.DateTimeField(verbose_name='update_at', auto_now=True)
+	createAt = models.DateTimeField(verbose_name='create_at', default=str(timezone.now()))
+	updateAt = models.DateTimeField(verbose_name='update_at', default=str(timezone.now()))
 	customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, verbose_name='customer')
 	goodsList = JSONField()
 	rcvInfo = models.ForeignKey(RecieveInfo, on_delete=models.DO_NOTHING, verbose_name='reciever_info')
