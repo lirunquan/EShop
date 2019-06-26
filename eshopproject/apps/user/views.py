@@ -25,6 +25,8 @@ def login(request):
 				ret['msg'] = 'the customer does not exists.'
 			elif len(customer)==1 :
 				if customer[0].password==pwd :
+					customer[0].isOnline = True
+					customer[0].save()
 					ret['result'] = 1
 					ret['msg'] = 'customer login successfully.'
 				else:
@@ -37,6 +39,8 @@ def login(request):
 				ret['msg'] = 'the clerk does not exists.'
 			elif len(clerk)==1 :
 				if clerk[0].password==pwd :
+					clerk[0].isOnline = True
+					clerk[0].save()
 					ret['result'] = 1
 					ret['msg'] = 'clerk login successfully.'
 				else:
@@ -83,4 +87,14 @@ def register(request):
 	return JsonResponse(ret)
 @csrf_exempt
 def changepwd(request):
+	ret = {}
+	if request.method=='POST':
+		data = json.loads(request.body)
+		#uname = 
+	return JsonResponse(ret)
+@csrf_exempt
+def checkinfo(request):
+	pass
+@csrf_exempt
+def logout(request):
 	pass

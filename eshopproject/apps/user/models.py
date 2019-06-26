@@ -10,6 +10,7 @@ class User(models.Model):
 	lastLogin = models.DateTimeField(default=timezone.now)
 	createAt = models.DateTimeField(auto_now_add=True)
 	updateAt = models.DateTimeField(auto_now=True)
+	isOnline = models.BooleanField(default=False)
 	class Meta:
 		abstract = True
 

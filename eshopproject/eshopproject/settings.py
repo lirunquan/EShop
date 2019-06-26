@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'apps.goods',
     'apps.record',
     'apps.order',
+    'apps.cart',
     'rest_framework',
     'django_mysql',
 ]
