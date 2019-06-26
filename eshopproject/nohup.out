@@ -1,0 +1,8 @@
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
