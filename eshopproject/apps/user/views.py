@@ -26,7 +26,9 @@ def login(request):
 			elif len(customer)==1 :
 				if customer[0].password==pwd :
 					customer[0].isOnline = True
+					customer[0].lastLogin = timezone.localtime(timezone.now())
 					customer[0].save()
+					request.session['user_id'] = customer[0].username
 					ret['result'] = 1
 					ret['msg'] = 'customer login successfully.'
 				else:
@@ -40,7 +42,9 @@ def login(request):
 			elif len(clerk)==1 :
 				if clerk[0].password==pwd :
 					clerk[0].isOnline = True
+					clerk[0].lastLogin = timezone.localtime(timezone.now())
 					clerk[0].save()
+					request.session['user_id'] = clerk[0].username
 					ret['result'] = 1
 					ret['msg'] = 'clerk login successfully.'
 				else:
@@ -87,14 +91,44 @@ def register(request):
 	return JsonResponse(ret)
 @csrf_exempt
 def changepwd(request):
-	ret = {}
+	ret = {'result': 0}
 	if request.method=='POST':
 		data = json.loads(request.body)
-		#uname = 
+		uname = data['username']
+		oldpwd = data['old_password']
+
 	return JsonResponse(ret)
 @csrf_exempt
 def checkinfo(request):
-	pass
+	ret = {'result': 0}
+
+	return JsonResponse(ret)
 @csrf_exempt
 def logout(request):
-	pass
+	ret = {'result': 0}
+	if request.method=='POST' :
+		data = json.loads(request.body)
+		uname = data['username']
+		group = data['group']
+		if group=='Customer' :
+			customer = Customer.objects.filter(username=uname)
+			if len(customer)==1 :
+				if customer[0].isOnline :
+					customer[0].isOnline = True
+					customer[0].save()
+					request.session.flush()
+					ret['result'] = 1
+					ret['msg'] = 'customer logout successfully.'
+		elif group=='Clerk' :
+			clerk = Clerk.objects.filter(username=uname)
+			if len(clerk)==1 :
+				if clerk[0].isOnline :
+					clerk[0].isOnline = True
+					clerk[0].save()
+					request.session.flush()
+					ret['result'] = 1
+					ret['msg'] = 'clerk logout successfully.'
+	else :
+		ret['result'] = -3
+		ret['msg'] = 'need POST request.'
+	return JsonResponse(ret)

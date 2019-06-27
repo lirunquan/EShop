@@ -6,3 +6,406 @@ WARNINGS:
 	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
 
 System check identified 1 issue (0 silenced).
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+[28/Jun/2019 01:34:18] "POST /user/login HTTP/1.1" 200 52
+[28/Jun/2019 01:36:50] "POST /user/login HTTP/1.1" 200 52
+[28/Jun/2019 01:37:18] "POST /user/login HTTP/1.1" 200 52
+Not Found: /
+[28/Jun/2019 01:39:24] "GET / HTTP/1.1" 404 2157
+Not Found: /user
+[28/Jun/2019 01:39:35] "GET /user HTTP/1.1" 404 2187
+[28/Jun/2019 01:39:41] "GET /user/login HTTP/1.1" 200 43
+[28/Jun/2019 01:40:48] "POST /user/login HTTP/1.1" 200 52
+Not Found: /user/logout
+[28/Jun/2019 01:41:38] "POST /user/logout HTTP/1.1" 404 2452
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/urls.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 01:33:56
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+[28/Jun/2019 01:42:10] "POST /user/logout HTTP/1.1" 200 53
+[28/Jun/2019 01:42:51] "POST /user/login HTTP/1.1" 200 52
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 01:42:09
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 01:43:58
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 01:44:47
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+[28/Jun/2019 01:46:57] "POST /user/login HTTP/1.1" 200 52
+/Users/yuronghui/Desktop/EShop/eshopproject/eshopproject/settings.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 01:46:52
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+Internal Server Error: /user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py", line 29, in login
+    customer[0].lastLogin = timezone.localtime()
+  File "/usr/local/lib/python3.7/site-packages/django/utils/timezone.py", line 207, in localtime
+    raise ValueError("localtime() cannot be applied to a naive datetime")
+ValueError: localtime() cannot be applied to a naive datetime
+[28/Jun/2019 01:47:51] "POST /user/login HTTP/1.1" 500 71025
+/Users/yuronghui/Desktop/EShop/eshopproject/eshopproject/settings.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 01:47:47
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+[28/Jun/2019 01:49:04] "POST /user/login HTTP/1.1" 200 52
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 01:48:35
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+/usr/local/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1421: RuntimeWarning: DateTimeField Customer.lastLogin received a naive datetime (2019-06-28 01:53:21.135262) while time zone support is active.
+  RuntimeWarning)
+[28/Jun/2019 01:53:21] "POST /user/login HTTP/1.1" 200 52
+/usr/local/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1421: RuntimeWarning: DateTimeField Customer.lastLogin received a naive datetime (2019-06-28 01:54:11.006016) while time zone support is active.
+  RuntimeWarning)
+[28/Jun/2019 01:54:11] "POST /user/login HTTP/1.1" 200 52
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 01:51:47
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 01:54:49
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+/usr/local/lib/python3.7/site-packages/django/db/models/fields/__init__.py:1421: RuntimeWarning: DateTimeField Customer.lastLogin received a naive datetime (2019-06-27 17:55:01.001771) while time zone support is active.
+  RuntimeWarning)
+[28/Jun/2019 01:55:01] "POST /user/login HTTP/1.1" 200 52
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 01:54:59
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+[28/Jun/2019 01:59:58] "POST /user/login HTTP/1.1" 200 52
+/Users/yuronghui/Desktop/EShop/eshopproject/eshopproject/settings.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 01:59:24
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+[27/Jun/2019 18:00:38] "POST /user/login HTTP/1.1" 200 52
+/Users/yuronghui/Desktop/EShop/eshopproject/eshopproject/settings.py changed, reloading.
+Performing system checks...
+
+June 27, 2019 - 18:00:35
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+[28/Jun/2019 02:02:08] "POST /user/login HTTP/1.1" 200 52
+/Users/yuronghui/Desktop/EShop/eshopproject/eshopproject/settings.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 02:01:14
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+Internal Server Error: /user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py", line 29, in login
+    customer[0].lastLogin = timezone.localtime(timezone.now())
+  File "/usr/local/lib/python3.7/site-packages/django/utils/timezone.py", line 207, in localtime
+    raise ValueError("localtime() cannot be applied to a naive datetime")
+ValueError: localtime() cannot be applied to a naive datetime
+[28/Jun/2019 02:03:30] "POST /user/login HTTP/1.1" 500 71052
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 02:03:13
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+Internal Server Error: /user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py", line 30, in login
+    customer[0].save()
+  File "/usr/local/lib/python3.7/site-packages/django/db/models/base.py", line 741, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/usr/local/lib/python3.7/site-packages/django/db/models/base.py", line 779, in save_base
+    force_update, using, update_fields,
+  File "/usr/local/lib/python3.7/site-packages/django/db/models/base.py", line 851, in _save_table
+    forced_update)
+  File "/usr/local/lib/python3.7/site-packages/django/db/models/base.py", line 900, in _do_update
+    return filtered._update(values) > 0
+  File "/usr/local/lib/python3.7/site-packages/django/db/models/query.py", line 760, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+  File "/usr/local/lib/python3.7/site-packages/django/db/models/sql/compiler.py", line 1426, in execute_sql
+    cursor = super().execute_sql(result_type)
+  File "/usr/local/lib/python3.7/site-packages/django/db/models/sql/compiler.py", line 1084, in execute_sql
+    sql, params = self.as_sql()
+  File "/usr/local/lib/python3.7/site-packages/django/db/models/sql/compiler.py", line 1392, in as_sql
+    val = field.get_db_prep_save(val, connection=self.connection)
+  File "/usr/local/lib/python3.7/site-packages/django/db/models/fields/__init__.py", line 789, in get_db_prep_save
+    return self.get_db_prep_value(value, connection=connection, prepared=False)
+  File "/usr/local/lib/python3.7/site-packages/django/db/models/fields/__init__.py", line 1430, in get_db_prep_value
+    return connection.ops.adapt_datetimefield_value(value)
+  File "/usr/local/lib/python3.7/site-packages/django/db/backends/mysql/operations.py", line 198, in adapt_datetimefield_value
+    raise ValueError("MySQL backend does not support timezone-aware datetimes when USE_TZ is False.")
+ValueError: MySQL backend does not support timezone-aware datetimes when USE_TZ is False.
+[28/Jun/2019 02:04:49] "POST /user/login HTTP/1.1" 500 122107
+/Users/yuronghui/Desktop/EShop/eshopproject/eshopproject/settings.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 02:04:45
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 02:06:29
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+Internal Server Error: /user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py", line 29, in login
+    customer[0].lastLogin = timezone.now().astimezone(pytz.timezone('Asia/Shanghai'))
+NameError: name 'pytz' is not defined
+[28/Jun/2019 02:13:26] "POST /user/login HTTP/1.1" 500 67307
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 02:13:14
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+[28/Jun/2019 02:14:00] "POST /user/login HTTP/1.1" 200 52
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 02:13:57
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
+/Users/yuronghui/Desktop/EShop/eshopproject/apps/user/views.py changed, reloading.
+Performing system checks...
+
+June 28, 2019 - 02:14:35
+Django version 2.2, using settings 'eshopproject.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+?: (django_mysql.W003) The character set is not utf8mb4 for database connection 'default'
+	HINT: The default 'utf8' character set does not include support for all Unicode characters. It's strongly recommended you move to use 'utf8mb4'. See: https://django-mysql.readthedocs.io/en/latest/checks.html#django-mysql-w003-utf8mb4
+
+System check identified 1 issue (0 silenced).
