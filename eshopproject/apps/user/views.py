@@ -344,7 +344,7 @@ def recieveinfo(request):
 			ret['recieveinfo'] = rcvlist
 	else :
 		ret['result'] = -5
-		ret['msg'] = 'need POST request.'	
+		ret['msg'] = 'need GET request.'	
 	return JsonResponse(ret)
 @csrf_exempt
 def changercvinfo(request):
@@ -357,7 +357,25 @@ def changercvinfo(request):
 			return JsonResponse({'result': -4, 'msg': 'needs login.'})
 		else:
 			data = json.loads(request.body)
-
+			customer = Customer.objects.get(username=uname)
+			before = data['before']
+			b_reciever = before['reciever']
+			b_address = before['address']
+			b_phone = before['phone']
+			b_postcode = before['postcode']
+			order = Order.objects.filter(customer=customer, reciever=b_reciever, phone=b_phone, postcode=b_postcode, address=b_address)
+			if len(order)==0 :
+				ret['result'] = -2
+				ret['msg'] = 'the rcv info dose not exist.'
+			elif len(order)==1 :
+				after = data['after']
+				order[0].address = after['address']
+				order[0].reciever = after['reciever']
+				order[0].phone = after['phone']
+				order[0].postcode = after['postcode']
+				order[0].save()
+				ret['result'] = 1
+				ret['msg'] = 'change recieve info successfully.'
 	return JsonResponse(ret)
 @csrf_exempt
 def delrcvinfo(request):
