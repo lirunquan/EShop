@@ -363,8 +363,8 @@ def changercvinfo(request):
 			b_address = before['address']
 			b_phone = before['phone']
 			b_postcode = before['postcode']
-			order = Order.objects.filter(customer=customer, reciever=b_reciever, phone=b_phone, postcode=b_postcode, address=b_address)
-			if len(order)==0 :
+			rcvinfo = RecieveInfo.objects.filter(owner=customer, reciever=b_reciever, phone=b_phone, postcode=b_postcode, address=b_address)
+			if len(rcvinfo)==0 :
 				ret['result'] = -2
 				ret['msg'] = 'the rcv info dose not exist.'
 			elif len(order)==1 :
@@ -396,8 +396,8 @@ def delrcvinfo(request):
 			phone = data['phone']
 			address = data['address']
 			postcode = data['postcode']
-			order = Order.objects.filter(customer=customer,reciever=reciever, phone=phone, address=address, postcode=postcode)
-			if len(order)==0 :
+			rcvinfo = RecieveInfo.objects.filter(owner=customer,reciever=reciever, phone=phone, address=address, postcode=postcode)
+			if len(rcvinfo)==0 :
 				ret['result'] = -2
 				ret['msg'] = 'the rcv info dose not exist.'
 			elif len(order)==1 :
@@ -424,7 +424,7 @@ def addrcvinfo(request):
 			phone = data['phone']
 			address = data['address']
 			postcode = data['postcode']
-			rcvinfo = RecieveInfo.objects.get_or_create(customer=customer,reciever=reciever, phone=phone, address=address, postcode=postcode)
+			rcvinfo = RecieveInfo.objects.get_or_create(owner=customer,reciever=reciever, phone=phone, address=address, postcode=postcode)
 			if rcvinfo[1] :
 				ret['result'] = 1
 				ret['msg'] = 'add recieve info successfully.'
