@@ -7,7 +7,7 @@ class User(models.Model):
 	username = models.CharField(max_length=20, verbose_name='username', unique=True)
 	password = models.CharField(max_length=40, verbose_name='password', blank=False)
 	realName = models.CharField(max_length=50, verbose_name='real_name')
-	group = models.CharField(max_length=10, choice=g_methods, default='1')
+	group = models.CharField(max_length=10, choices=g_methods, default='1')
 	lastLogin = models.DateTimeField(default=timezone.now)
 	createAt = models.DateTimeField(auto_now_add=True)
 	updateAt = models.DateTimeField(auto_now=True)
