@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django_mysql.models import JSONField
-from apps.user.models import Clerk
+from apps.user.models import Clerk, RecieveInfo
 from apps.order.models import Order
 import time
 # Create your models here.
@@ -18,6 +18,6 @@ class Purchase(Record):
 	totalPrice = models.DecimalField(max_digits=12, decimal_places=2, verbose_name='total_price')
 
 class Deliver(Record):
-	recieveInfo = JSONField()
+	recieveInfo = models.ForeignKey(RecieveInfo, on_delete=models.CASCADE)
 	order = models.ForeignKey(Order, related_name='order_deliver', on_delete=models.CASCADE)
 	logistics = models.CharField(max_length=40, verbose_name='logistics_company')
