@@ -181,10 +181,7 @@ def checkinfo(request):
 					ret['result'] = 1
 					ret['msg'] = 'show clerk info.'
 					ret['info'] = {
-						'phone': clerk[0].phone,
-						'email': clerk[0].email,
-						'realname': clerk[0].realName,
-						'account': clerk[0].account
+						'jobnumber': clerk[0].jobnumber
 					}
 				else :
 					ret['result'] = -4
@@ -216,12 +213,6 @@ def changeinfo(request):
 					customer[0].save()
 					ret['result'] = 1
 					ret['msg'] = 'change customer info successfully.'
-					ret['info'] = {
-						'phone': customer[0].phone,
-						'email': customer[0].email,
-						'realname': customer[0].realName,
-						'account': customer[0].account
-					}
 				else :
 					ret['result'] = -4
 					ret['msg'] = 'the customer needs login.'
@@ -232,21 +223,11 @@ def changeinfo(request):
 				ret['msg'] = 'the clerk does not exist.'
 			elif len(clerk)==1 :
 				if clerk[0].isOnline :
-					if 'phone' in data :
-						clerk[0].phone = data['phone']
-					if 'email' in data :
-						clerk[0].email = data['email']
-					if 'realname' in data :
-						clerk[0].realName = data['realname']
+					if 'jobnumber' in data :
+						clerk[0].realName = data['jobnumber']
 					clerk[0].save()
 					ret['result'] = 1
 					ret['msg'] = 'show clerk info.'
-					ret['info'] = {
-						'phone': clerk[0].phone,
-						'email': clerk[0].email,
-						'realname': clerk[0].realName,
-						'account': clerk[0].account
-					}
 				else :
 					ret['result'] = -4
 					ret['msg'] = 'the clerk needs login.'
