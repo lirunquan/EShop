@@ -154,12 +154,16 @@ def getpaid(request):
 					ret['msg'] = 'order already paid.'
 				else :
 					if order[0].payment_method==1:
-						customer.account -= order[0].totalPrice
-						order[0].isPaid = True
-						customer.save()
-						order[0].save()
-						ret['result'] = 1
-						ret['msg'] = 'order get paid successfully.'
+						if customer.account>=order[0].totalPrice:
+							customer.account -= order[0].totalPrice
+							order[0].isPaid = True
+							customer.save()
+							order[0].save()
+							ret['result'] = 1
+							ret['msg'] = 'order get paid successfully.'
+						else :
+							ret['result'] = -6
+							ret['msg'] = 'lack of balance, charge please.'
 					else : 
 						ret['result'] = 0
 						ret['msg'] = 'no need to pay online.'
