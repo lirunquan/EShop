@@ -11,7 +11,7 @@ def goods_look(request):
 		data = json.loads(request.body)
 		num = data['num']
 		goods_list = []
-		goods = Goods.objects.all()[n:n+10]
+		goods = Goods.objects.all()[num:num+10]
 		if len(goods)>0:
 			for g in goods :
 				goods_list.append({
