@@ -24,3 +24,11 @@ class Clerk(User):
 	jobnumber = models.CharField(max_length=11)	
 	def __str__(self):
 		return '%s %s'%(self.username, self.jobnumber)
+class RecieveInfo(models.Model):
+	owner = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name='customer')
+	reciever = models.CharField(max_length=50, verbose_name='reciever_name')
+	address = models.TextField(verbose_name='recive_address')
+	phone = models.CharField(max_length=11, verbose_name='reciever_phone', unique=True)
+	postcode = models.CharField(max_length=6)
+	def __str__(self):
+		return '%s\t%s %s'%(self.reciever, self.address, self.phone)

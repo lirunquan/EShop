@@ -2,16 +2,9 @@ from django.db import models
 from django.utils import timezone
 from django_mysql.models import JSONField
 from apps.goods.models import Goods
-from apps.user.models import Customer
+from apps.user.models import Customer, RecieveInfo
 import time
 # Create your models here.
-class RecieveInfo(models.Model):
-	reciever = models.CharField(max_length=50, verbose_name='reciever_name')
-	address = models.TextField(verbose_name='recive_address')
-	phone = models.CharField(max_length=11, verbose_name='reciever_phone', unique=True)
-	postcode = models.CharField(max_length=6)
-	def __str__(self):
-		return '%s\t%s %s'%(self.reciever, self.address, self.phone)
 class Order(models.Model):
 	p_methods = ((1, 'online'),(0, 'cash'))
 	code = models.CharField(max_length=10, verbose_name='order_code')
