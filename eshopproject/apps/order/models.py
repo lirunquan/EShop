@@ -7,7 +7,7 @@ import time
 # Create your models here.
 class Order(models.Model):
 	p_methods = ((1, 'online'),(0, 'cash'))
-	code = models.CharField(max_length=10, verbose_name='order_code')
+	code = models.CharField(max_length=10, verbose_name='order_code', unique=True)
 	createAt = models.DateTimeField(auto_now_add=True)
 	updateAt = models.DateTimeField(auto_now=True)
 	customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, verbose_name='customer')
