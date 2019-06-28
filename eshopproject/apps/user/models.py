@@ -18,5 +18,9 @@ class Customer(User):
 	phone = models.CharField(max_length=11, verbose_name='phone_number', unique=True)
 	email = models.EmailField(verbose_name='email', unique=True)
 	account = models.FloatField(default=1000.0)
+	def __str__(self):
+		return '%s %s %s'%(self.username, self.phone, self.email)
 class Clerk(User):
 	jobnumber = models.CharField(max_length=11)	
+	def __str__(self):
+		return '%s %s'%(self.username, self.jobnumber)

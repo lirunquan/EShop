@@ -24,34 +24,42 @@ def login(request):
 				ret['result'] = -2
 				ret['msg'] = 'the customer does not exists.'
 			elif len(customer)==1 :
-				if customer[0].password==pwd :
-					customer[0].isOnline = True
-					customer[0].lastLogin = timezone.localtime(timezone.now())
-					customer[0].save()
-					request.session['user_id'] = customer[0].username
-					ret['result'] = 1
-					ret['msg'] = 'customer login successfully.'
-				else:
-					ret['result'] = -1
-					ret['msg'] = 'incorrect password.'
+				if customer[0].isOnline :
+					ret['result'] = 2
+					ret['msg'] = 'customer has logged in.'
+				else :	
+					if customer[0].password==pwd :
+						customer[0].isOnline = True
+						customer[0].lastLogin = timezone.localtime(timezone.now())
+						customer[0].save()
+						request.session['user_id'] = customer[0].username
+						ret['result'] = 1
+						ret['msg'] = 'customer login successfully.'
+					else:
+						ret['result'] = -1
+						ret['msg'] = 'incorrect password.'
 		elif group=='Clerk':
 			clerk = Clerk.objects.filter(username=uname)
 			if len(clerk)==0:
 				ret['result'] = -2
 				ret['msg'] = 'the clerk does not exists.'
 			elif len(clerk)==1 :
-				if clerk[0].password==pwd :
-					clerk[0].isOnline = True
-					clerk[0].lastLogin = timezone.localtime(timezone.now())
-					clerk[0].save()
-					request.session['user_id'] = clerk[0].username
-					ret['result'] = 1
-					ret['msg'] = 'clerk login successfully.'
-				else:
-					ret['result'] = -1
-					ret['msg'] = 'incorrect password.'
+				if clerk[0].isOnline :
+					ret['result'] = 2
+					ret['msg'] = 'clerk has logged in.'
+				else :
+					if clerk[0].password==pwd :
+						clerk[0].isOnline = True
+						clerk[0].lastLogin = timezone.localtime(timezone.now())
+						clerk[0].save()
+						request.session['user_id'] = clerk[0].username
+						ret['result'] = 1
+						ret['msg'] = 'clerk login successfully.'
+					else:
+						ret['result'] = -1
+						ret['msg'] = 'incorrect password.'
 	else:
-		ret['result'] = -3
+		ret['result'] = -5
 		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
 @csrf_exempt
@@ -83,10 +91,10 @@ def register(request):
 				ret['result'] = 1
 				ret['msg'] = 'customer register successfully.'
 			else:
-				ret['result'] = -1
+				ret['result'] = -3
 				ret['msg'] = 'customer already exist.'
 	else :
-		ret['result'] = -3
+		ret['result'] = -5
 		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
 @csrf_exempt
@@ -95,14 +103,182 @@ def changepwd(request):
 	if request.method=='POST':
 		data = json.loads(request.body)
 		uname = data['username']
+		group = data['group']
 		oldpwd = data['old_password']
-
+		newpwd = data['new_password']
+		if group=='Customer' :
+			customer = Customer.objects.filter(username=uname)
+			if len(customer)==0 :
+				ret['result'] = -2
+				ret['msg'] = 'the customer does not exist.'
+			elif len(customer)==1 :
+				if customer[0].isOnline :
+					if customer[0]==oldpwd :
+						customer[0].password = newpwd
+						customer[0].save()
+						ret['result'] = 1
+						ret['msg'] = 'change password successfully.'
+					else :
+						ret['result'] = -1
+						ret['msg'] = 'incorrect password.'
+				else :
+					ret['result'] = -4
+					ret['msg'] = 'the customer needs login.'
+		elif group=='Clerk' :
+			clerk = Clerk.objects.filter(username=uname)
+			if len(clerk)==0 :
+				ret['result'] = -1
+				ret['msg'] = 'the clerk does not exist.'
+			elif len(clerk)==1 :
+				if clerk[0].isOnline :
+					if clerk[0]==oldpwd :
+						clerk[0].password = newpwd
+						clerk[0].save()
+						ret['result'] = 1
+						ret['msg'] = 'change password successfully.'
+					else :
+						ret['result'] = -2
+						ret['msg'] = 'incorrect password.'
+				else :
+					ret['result'] = -4
+					ret['msg'] = 'the clerk needs login.'
+	else:
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
 @csrf_exempt
 def checkinfo(request):
 	ret = {'result': 0}
-
+	if request.method=='POST' :
+		data = json.loads(request.body)
+		uname = data['username']
+		group = data['group']
+		if group=='Customer' :
+			customer = Customer.objects.filter(username=uname)
+			if len(customer)==0 :
+				ret['result'] = -2
+				ret['msg'] = 'the customer does not exist.'
+			elif len(customer)==1 :
+				if customer[0].isOnline :
+					ret['result'] = 1
+					ret['msg'] = 'show customer info.'
+					ret['info'] = {
+						'phone': customer[0].phone,
+						'email': customer[0].email,
+						'realname': customer[0].realName,
+						'account': customer[0].account
+					}
+				else :
+					ret['result'] = -4
+					ret['msg'] = 'the customer needs login.'
+		elif group=='Clerk' :
+			clerk = Clerk.objects.filter(username=uname)
+			if len(clerk)==0 :
+				ret['result'] = -2
+				ret['msg'] = 'the clerk does not exist.'
+			elif len(clerk)==1 :
+				if clerk[0].isOnline :
+					ret['result'] = 1
+					ret['msg'] = 'show clerk info.'
+					ret['info'] = {
+						'phone': clerk[0].phone,
+						'email': clerk[0].email,
+						'realname': clerk[0].realName,
+						'account': clerk[0].account
+					}
+				else :
+					ret['result'] = -4
+					ret['msg'] = 'the clerk needs login.'
+	else:
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
+@csrf_exempt
+def changeinfo(request):
+	ret = {'result': 0}
+	if request.method=='POST' :
+		data = json.loads(request.body)
+		uname = data['username']
+		group = data['group']
+		if group=='Customer' :
+			customer = Customer.objects.filter(username=uname)
+			if len(customer)==0 :
+				ret['result'] = -2
+				ret['msg'] = 'the customer does not exist.'
+			elif len(customer)==1 :
+				if customer[0].isOnline :
+					if 'phone' in data :
+						customer[0].phone = data['phone']
+					if 'email' in data :
+						customer[0].email = data['email']
+					if 'realname' in data :
+						customer[0].realName = data['realname']
+					customer[0].save()
+					ret['result'] = 1
+					ret['msg'] = 'change customer info successfully.'
+					ret['info'] = {
+						'phone': customer[0].phone,
+						'email': customer[0].email,
+						'realname': customer[0].realName,
+						'account': customer[0].account
+					}
+				else :
+					ret['result'] = -4
+					ret['msg'] = 'the customer needs login.'
+		elif group=='Clerk' :
+			clerk = Clerk.objects.filter(username=uname)
+			if len(clerk)==0 :
+				ret['result'] = -2
+				ret['msg'] = 'the clerk does not exist.'
+			elif len(clerk)==1 :
+				if clerk[0].isOnline :
+					if 'phone' in data :
+						clerk[0].phone = data['phone']
+					if 'email' in data :
+						clerk[0].email = data['email']
+					if 'realname' in data :
+						clerk[0].realName = data['realname']
+					clerk[0].save()
+					ret['result'] = 1
+					ret['msg'] = 'show clerk info.'
+					ret['info'] = {
+						'phone': clerk[0].phone,
+						'email': clerk[0].email,
+						'realname': clerk[0].realName,
+						'account': clerk[0].account
+					}
+				else :
+					ret['result'] = -4
+					ret['msg'] = 'the clerk needs login.'
+	else:
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
+	return JsonResponse(ret)
+@csrf_exempt
+def charge(request):
+	ret = {'result': 0}
+	if request.method=='POST' :
+		data = json.loads(request.body)
+		uname = data['username']
+		group = data['group']
+		if group=='Customer' :
+			customer = Customer.objects.filter(username=uname)
+			if len(customer)==0 :
+				ret['result'] = -2
+				ret['msg'] = 'the customer does not exist.'
+			elif len(customer)==1 :
+				if customer[0].isOnline :
+					customer[0].account += data['amount']
+					customer[0].save()
+					ret['result'] = 1
+					ret['msg'] = 'charge successfully.'
+				else :
+					ret['result'] = -4
+					ret['msg'] = 'the customer needs login.'
+	else:
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
+	return JsonResponse(ret);
 @csrf_exempt
 def logout(request):
 	ret = {'result': 0}
@@ -112,6 +288,9 @@ def logout(request):
 		group = data['group']
 		if group=='Customer' :
 			customer = Customer.objects.filter(username=uname)
+			if len(customer)==0 :
+				ret['result'] = -2
+				ret['msg'] = 'the customer does not exist.'
 			if len(customer)==1 :
 				if customer[0].isOnline :
 					customer[0].isOnline = True
@@ -119,8 +298,14 @@ def logout(request):
 					request.session.flush()
 					ret['result'] = 1
 					ret['msg'] = 'customer logout successfully.'
+				else :
+					ret['result'] = -4
+					ret['msg'] = 'the customer needs login.'
 		elif group=='Clerk' :
 			clerk = Clerk.objects.filter(username=uname)
+			if len(clerk)==0 :
+				ret['result'] = -2
+				ret['msg'] = 'the clerk does not exist.'
 			if len(clerk)==1 :
 				if clerk[0].isOnline :
 					clerk[0].isOnline = True
@@ -128,6 +313,9 @@ def logout(request):
 					request.session.flush()
 					ret['result'] = 1
 					ret['msg'] = 'clerk logout successfully.'
+				else :
+					ret['result'] = -4
+					ret['msg'] = 'the clerk needs login.'
 	else :
 		ret['result'] = -3
 		ret['msg'] = 'need POST request.'

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.cart',
     'rest_framework',
     'django_mysql',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
