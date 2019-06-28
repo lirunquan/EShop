@@ -424,8 +424,8 @@ def addrcvinfo(request):
 			phone = data['phone']
 			address = data['address']
 			postcode = data['postcode']
-			order = Order.objects.get_or_create(customer=customer,reciever=reciever, phone=phone, address=address, postcode=postcode)
-			if order[1] :
+			rcvinfo = RecieveInfo.objects.get_or_create(customer=customer,reciever=reciever, phone=phone, address=address, postcode=postcode)
+			if rcvinfo[1] :
 				ret['result'] = 1
 				ret['msg'] = 'add recieve info successfully.'
 			else :
