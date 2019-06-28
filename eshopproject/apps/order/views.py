@@ -23,6 +23,9 @@ def checkorderbyuser(request):
 			ret['result'] = 1
 			ret['msg'] = 'the orders owned by customer'
 			ret['orders'] = orderlist
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'needs POST request'
 	return JsonResponse(ret)
 @csrf_exempt
 def checkorderbycode(request):
