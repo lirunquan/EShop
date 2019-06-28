@@ -293,7 +293,7 @@ def logout(request):
 				ret['msg'] = 'the customer does not exist.'
 			if len(customer)==1 :
 				if customer[0].isOnline :
-					customer[0].isOnline = True
+					customer[0].isOnline = False
 					customer[0].save()
 					request.session.flush()
 					ret['result'] = 1
@@ -308,7 +308,7 @@ def logout(request):
 				ret['msg'] = 'the clerk does not exist.'
 			if len(clerk)==1 :
 				if clerk[0].isOnline :
-					clerk[0].isOnline = True
+					clerk[0].isOnline = False
 					clerk[0].save()
 					request.session.flush()
 					ret['result'] = 1
