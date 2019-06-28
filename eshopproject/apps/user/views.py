@@ -376,12 +376,62 @@ def changercvinfo(request):
 				order[0].save()
 				ret['result'] = 1
 				ret['msg'] = 'change recieve info successfully.'
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
 @csrf_exempt
 def delrcvinfo(request):
 	ret = {'result': 0}
+	if request.method=='POST' :
+		try:
+			uname = request.session['user_id']
+			group = request.session['user_group']
+		except Exception as e:	
+			return JsonResponse({'result': -4, 'msg': 'needs login.'})
+		else:
+			data = json.loads(request.body)
+			customer = Customer.objects.get(username=uname)
+			reciever = data['reciever']
+			phone = data['phone']
+			address = data['address']
+			postcode = data['postcode']
+			order = Order.objects.filter(customer=customer,reciever=reciever, phone=phone, address=address, postcode=postcode)
+			if len(order)==0 :
+				ret['result'] = -2
+				ret['msg'] = 'the rcv info dose not exist.'
+			elif len(order)==1 :
+				order.delete()
+				ret['result'] = 1
+				ret['msg'] = 'delete successfully.'
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
 @csrf_exempt
 def addrcvinfo(request):
 	ret = {'result': 0}
+	if request.method=='POST' :
+		try:
+			uname = request.session['user_id']
+			group = request.session['user_group']
+		except Exception as e:	
+			return JsonResponse({'result': -4, 'msg': 'needs login.'})
+		else:
+			data = json.loads(request.body)
+			customer = Customer.objects.get(username=uname)
+			reciever = data['reciever']
+			phone = data['phone']
+			address = data['address']
+			postcode = data['postcode']
+			order = Order.objects.get_or_create(customer=customer,reciever=reciever, phone=phone, address=address, postcode=postcode)
+			if order[1] :
+				ret['result'] = 1
+				ret['msg'] = 'add recieve info successfully.'
+			else :
+				ret['result'] = -3
+				ret['msg'] = 'already exist.'
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
