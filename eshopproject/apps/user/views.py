@@ -121,7 +121,7 @@ def changepwd(request):
 					ret['msg'] = 'the customer does not exist.'
 				elif len(customer)==1 :
 					if customer[0].isOnline :
-						if customer[0]==oldpwd :
+						if customer[0].password==oldpwd :
 							customer[0].password = newpwd
 							customer[0].save()
 							ret['result'] = 1
