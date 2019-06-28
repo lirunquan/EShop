@@ -1,8 +1,8 @@
 from django.shortcuts import render
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .models import Clerk, Customer
-from django.http import JsonResponse, HttpResponse
+from .models import Clerk, Customer, RecieveInfo
+from django.http import JsonResponse
 from django.utils import timezone
 import datetime
 # Create your views here.
@@ -322,6 +322,48 @@ def logout(request):
 						ret['result'] = -4
 						ret['msg'] = 'the clerk needs login.'
 	else :
-		ret['result'] = -3
+		ret['result'] = -5
 		ret['msg'] = 'need POST request.'
+	return JsonResponse(ret)
+@csrf_exempt
+def recieveinfo(request):
+	ret = {'result': 0}
+	if request.method=='GET':
+		try:
+			uname = request.session['user_id']
+			group = request.session['user_group']
+		except Exception as e:	
+			return JsonResponse({'result': -4, 'msg': 'needs login.'})
+		else:
+			rcvlist = []
+			for rcv in RecieveInfo.objects.all():
+				if rcv.owner.username==uname :
+					rcvlist.append({'reciever': rcv.reciever, 'address': rcv.address, 'phone': rcv.phone, 'postcode': rcv.postcode})
+			ret['result'] = 1
+			ret['msg'] = 'show recieve info'
+			ret['recieveinfo'] = rcvlist
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'	
+	return JsonResponse(ret)
+@csrf_exempt
+def changercvinfo(request):
+	ret = {'result': 0}
+	if request.method=='POST' :
+		try:
+			uname = request.session['user_id']
+			group = request.session['user_group']
+		except Exception as e:	
+			return JsonResponse({'result': -4, 'msg': 'needs login.'})
+		else:
+			data = json.loads(request.body)
+
+	return JsonResponse(ret)
+@csrf_exempt
+def delrcvinfo(request):
+	ret = {'result': 0}
+	return JsonResponse(ret)
+@csrf_exempt
+def addrcvinfo(request):
+	ret = {'result': 0}
 	return JsonResponse(ret)

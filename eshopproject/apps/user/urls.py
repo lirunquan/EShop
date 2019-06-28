@@ -11,4 +11,8 @@ urlpatterns = [
     path('changeinfo', views.changeinfo, name='changeinfo'),
     path('charge', views.charge, name='charge'),
     path('logout', views.logout, name='logout'),
+    path('checkrecive', views.recieveinfo, name='checkrecive'),
+    path('changerecieve', views.changercvinfo, name='changerecieve'),
+    path('deleterecieve', views.delrcvinfo, name='deleterecieve'),
+    path('addrecieve', views.addrcvinfo, name='addrecieve'),
 ]
