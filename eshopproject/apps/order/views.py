@@ -15,7 +15,7 @@ def checkorderbyuser(request):
 		except Exception as e:
 			return JsonResponse({'request': -4, 'msg': 'needs login.'})
 		else:
-			data = json.loads(request.body)
+			#data = json.loads(request.body)
 			orderlist = []
 			for order in Order.objects.all():
 				if order.customer.username==uname :
