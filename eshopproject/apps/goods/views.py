@@ -47,22 +47,29 @@ def addtocart(request):
 			customer = Customer.objects.get(username=uname)
 			cart = Cart.objects.get(owner=customer)
 			i_code = data['isbncode']
-			name = data['name']
-			price = data['price']
-			number = data['number']
-			l = cart.goodsList['list']
-			if len(l)>0:
-				a = 0
-				for i in l:
-					if i['isbncode']==i_code:
-						i['number'] += 1
-						break
-					a += 1
-				if a==len(l):
-					cart.goodsList['list'].append(data)
-			else:
-				cart.goodsList['list'].append(data)
-
+			if len(Goods.objects.filter(isbnCode=i_code))>0:
+				name = data['name']
+				price = data['price']
+				number = data['number']
+				l = cart.goodsList['list']
+				if len(l)>0:
+					a = 0
+					for i in l:
+						if i['isbncode']==i_code:
+							i['number'] += 1
+							break
+						a += 1
+					if a==len(l):
+						l.append(data)
+				else:
+					l.append(data)
+				cart.goodsList = JSONSet('goodsList', {'$.list':l})
+				cart.save()
+				ret['result'] = 1
+				ret['msg'] = 'add goods to cart succeffully.'
+			else :
+				ret['result'] = -2
+				ret['msg'] = 'goods does not exist.'
 	else:
 		ret['result'] = -5
 		ret['msg'] = 'needs POST request.'
