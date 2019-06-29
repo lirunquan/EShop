@@ -94,8 +94,11 @@ def createorder(request):
 			phone = rcv['phone']
 			address = rcv['address']
 			postcode = rcv['postcode']
-			rcvinfo = RecieveInfo.objects.get(customer=customer, reciever=reciever, address=address, phone=phone, postcode=postcode)
-			t_price = data['totalprice']
+			rcvinfo = RecieveInfo.objects.get_or_create(owner=customer, reciever=reciever, address=address, phone=phone, postcode=postcode)[0]
+			#t_price = data['totalprice']
+			t_price = 0
+			for g in goodslist['list']:
+				t_price = t_price+g['number']*g['price']
 			payment = data['payment']
 			remarks = data['remarks']
 			new_order = Order.objects.get_or_create(
@@ -155,7 +158,7 @@ def getpaid(request):
 				else :
 					if order[0].payment_method==1:
 						if customer.account>=order[0].totalPrice:
-							customer.account -= order[0].totalPrice
+							customer.account -= float(order[0].totalPrice)
 							order[0].isPaid = True
 							customer.save()
 							order[0].save()
