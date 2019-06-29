@@ -7,3 +7,5 @@ def df_json():
 class Cart(models.Model):
 	customer = models.OneToOneField(Customer, on_delete=models.CASCADE, verbose_name='owner')
 	goodsList = JSONField(default=df_json)
+	def __str__(self):
+		return self.customer.username
