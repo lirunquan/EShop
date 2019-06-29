@@ -19,7 +19,7 @@ def checkorderbyuser(request):
 			orderlist = []
 			for order in Order.objects.all():
 				if order.customer.username==uname :
-					orderlist.append(order.code)
+					orderlist.append({'code':order.code, 'goodslist': order.goodsList, 'totalprice': order.totalPrice, 'ispaid': order.isPaid})
 			ret['result'] = 1
 			ret['msg'] = 'the orders owned by customer'
 			ret['orders'] = orderlist
