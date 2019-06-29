@@ -8,7 +8,7 @@ def pic_path_name(instance, filename):
 class Goods(models.Model):
 	isbnCode = models.CharField(max_length=13, unique=True, verbose_name='ISBN_code')
 	name = models.CharField(max_length=50, verbose_name='name')
-	price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='price')
+	price = models.FloatField(max_digits=8, decimal_places=2, verbose_name='price')
 	params = JSONField()
 	picture = models.ImageField(upload_to=pic_path_name, blank=True, default='goods/default.png')
 	detail = HTMLField(max_length=200, verbose_name='details(.html)')
