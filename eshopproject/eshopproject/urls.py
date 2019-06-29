@@ -24,6 +24,7 @@ urlpatterns = [
     path('user/', include('apps.user.urls')),
     path('order/', include('apps.order.urls')),
     path('goods/', include('apps.goods.urls')),
+    path('cart/', include('apps.cart.urls')),
     url(r'^media/(?P<path>.*)', serve, {"document_root":MEDIA_ROOT}),
     #path(''),
 ]
