@@ -98,7 +98,7 @@ def createorder(request):
 			#t_price = data['totalprice']
 			t_price = 0
 			for g in goodslist:
-				t_price = t_price+g['number']*g['price']
+				t_price = t_price+float(g['number'])*float(g['price'])
 			payment = data['payment']
 			remarks = data['remarks']
 			new_order = Order.objects.get_or_create(
