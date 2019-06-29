@@ -57,7 +57,7 @@ def addtocart(request):
 					if i['isbncode']==i_code:
 						i['number'] += 1
 						break
-					a++
+					a += 1
 				if a==len(l):
 					cart.goodsList['list'].append(data)
 			else:
