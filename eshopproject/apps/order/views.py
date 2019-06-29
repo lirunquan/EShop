@@ -97,7 +97,7 @@ def createorder(request):
 			rcvinfo = RecieveInfo.objects.get_or_create(owner=customer, reciever=reciever, address=address, phone=phone, postcode=postcode)[0]
 			#t_price = data['totalprice']
 			t_price = 0
-			for g in goodslist['list']:
+			for g in goodslist:
 				t_price = t_price+g['number']*g['price']
 			payment = data['payment']
 			remarks = data['remarks']
