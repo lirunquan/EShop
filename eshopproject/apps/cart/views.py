@@ -15,7 +15,7 @@ def show(request):
 			return JsonResponse({'request': -4, 'msg': 'needs login.'})
 		else:
 			customer = Customer.objects.get(username=uname)
-			cart = Cart.objects.get(owner=customer)
+			cart = Cart.objects.get(customer=customer)
 			ret['result'] = 1
 			ret['msg'] = 'show cart'
 			ret['cart'] = {
