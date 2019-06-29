@@ -5,13 +5,15 @@ from apps.goods.models import Goods
 from apps.user.models import Customer, RecieveInfo
 import time
 # Create your models here.
+def df_json():
+	return {'list':[]}
 class Order(models.Model):
 	p_methods = ((1, 'online'),(0, 'cash'))
 	code = models.CharField(max_length=10, verbose_name='order_code', unique=True)
 	createAt = models.DateTimeField(auto_now_add=True)
 	updateAt = models.DateTimeField(auto_now=True)
 	customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, verbose_name='customer')
-	goodsList = JSONField()
+	goodsList = JSONField(default=df_json)
 	rcvInfo = models.ForeignKey(RecieveInfo, on_delete=models.DO_NOTHING, verbose_name='reciever_info')
 	totalPrice = models.DecimalField(max_digits=15, decimal_places=2, verbose_name='total_price')
 	isPaid = models.BooleanField(default=False)
