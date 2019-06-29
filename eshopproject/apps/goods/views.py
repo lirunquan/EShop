@@ -45,7 +45,7 @@ def addtocart(request):
 		else:
 			data = json.loads(request.body)
 			customer = Customer.objects.get(username=uname)
-			cart = Cart.objects.get(owner=customer)
+			cart = Cart.objects.get(customer=customer)
 			i_code = data['isbncode']
 			if len(Goods.objects.filter(isbnCode=i_code))>0:
 				name = data['name']
@@ -56,7 +56,7 @@ def addtocart(request):
 					a = 0
 					for i in l:
 						if i['isbncode']==i_code:
-							i['number'] += 1
+							i['number'] += number
 							break
 						a += 1
 					if a==len(l):
@@ -92,7 +92,7 @@ def goods_detail(request):
 				'isbncode': g[0].isbnCode,
 				'price': g[0].price,
 				'params': g[0].params,
-				'picture': g[0].picture,
+				'picture': g[0].picture.url,
 				'detail': g[0].detail,
 				'isselling': g[0].isSelling,
 				'tags': g[0].tags
