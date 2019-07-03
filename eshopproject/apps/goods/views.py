@@ -101,20 +101,3 @@ def goods_detail(request):
 		ret['result'] = -5
 		ret['msg'] = 'needs POST request.'
 	return JsonResponse(ret)
-@csrf_exempt
-def buy(request):
-	ret = {'result':0}
-	if request.method=='POST':
-		try:
-			uname = request.session['user_id']
-			group = request.session['user_group']
-		except Exception as e:
-			return JsonResponse({'request': -4, 'msg': 'needs login.'})
-		else:
-			#data = json.loads(request.body)
-			i_code = data['isbncode']
-
-	else:
-		ret['result'] = -5
-		ret['msg'] = 'needs POST request.'
-	return JsonResponse(ret)

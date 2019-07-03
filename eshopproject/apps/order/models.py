@@ -22,3 +22,8 @@ class Order(models.Model):
 	remarks = models.TextField(default='None')
 	def __str__(self):
 		return '%s[%s]'%(self.customer.username, self.code)
+
+class AliPayOrder(models.Model):
+	order_code = models.CharField(max_length=10, verbose_name='order_code', unique=True)
+	alipay_out_trade_no = models.CharField(max_length=64, verbose_name='支付宝交易订单号', unique=True)
+	alipay_trade_no = models.CharField(max_length=64, verbose_name='支付宝流水号', unique=True)
