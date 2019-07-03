@@ -16,16 +16,43 @@ def goods_look(request):
 		goods_list = []
 		goods = Goods.objects.all()[num:num+10]
 		if len(goods)>0:
-			for g in goods :
-				goods_list.append({
-					'isbncode': g.isbnCode,
-					'name': g.name,
-					'price': g.price,
-					'picture': g.picture.url
-					})
-			ret['result'] = 1
-			ret['msg'] = 'show goods'
-			ret['goods_list'] = goods_list
+			try:
+				uname = request.session['user_id']
+				group = request.session['user_group']
+			except Exception as e:
+				for g in goods :
+					if g.isSelling :
+						goods_list.append({
+							'isbncode': g.isbnCode,
+							'name': g.name,
+							'price': g.price,
+							'picture': g.picture.url,
+							'isselling': g.isSelling
+						})
+				#return JsonResponse({'result':1, 'msg': 'show goods', 'goods_list': goods_list})
+			else:
+				if group=='Customer':
+					for g in goods :
+						if g.isSelling :
+							goods_list.append({
+								'isbncode': g.isbnCode,
+								'name': g.name,
+								'price': g.price,
+								'picture': g.picture.url,
+								'isselling': g.isSelling
+							})
+				elif group=='Clerk' :
+					for g in goods :
+						goods_list.append({
+							'isbncode': g.isbnCode,
+							'name': g.name,
+							'price': g.price,
+							'picture': g.picture.url,
+							'isselling': g.isSelling
+						})
+				ret['result'] = 1
+				ret['msg'] = 'show goods'
+				ret['goods_list'] = goods_list
 		else :
 			ret['result'] = -2
 			ret['msg'] = 'no more goods.'
