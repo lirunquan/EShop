@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from django.utils import timezone
 import datetime
 from apps.cart.models import Cart
+from apps.goods.models import Goods
+from apps.record.models import Purchase, Deliver
 from alipay import AliPay
 # Create your views here.
 
@@ -458,3 +460,27 @@ def clerk_purchase(request):
 			return JsonResponse({'result': -4, 'msg': 'needs login.'})
 		else:
 			data = json.loads(request.body)
+			clerk = Clerk.objects.get(username=uname)
+			op = data['operation']
+			goodslist = data['goodslist']
+			totalprice = data['totalprice']
+			producer = data['producer']
+			remarks = data['remarks'] if len(data['remarks']>0) else 'None'
+			purchase = Purchase.objects.get_or_create(clerk=clerk, operation=op, goodsList=goodslist, totalPrice=totalprice, producer=producer, remarks=remarks)
+			if purchase[1]:
+				for g in goodslist:
+					i_code = g['isbncode']
+					cost = g['cost']
+					name = g['name']
+					count = g['count']
+					g_find = Goods.objects.get_or_create(isbnCode=i_code, name=name, cost=cost, repertory=count)
+					if !g_find[1] :
+						g_find[0].repertory += count
+						g_find[0].cost = (cost+g_find[0].cost)/2
+						g_find[0].save()
+				ret['result'] = 1
+				ret['msg'] = 'purchase successfully.'
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
+	return JsonResponse(ret)
