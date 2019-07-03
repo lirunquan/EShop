@@ -16,8 +16,10 @@ class Record(models.Model):
 class Purchase(Record):
 	goodsList = JSONField()
 	totalPrice = models.DecimalField(max_digits=12, decimal_places=2, verbose_name='total_price')
+	producer = models.TextField(default='')
 
 class Deliver(Record):
 	recieveInfo = models.ForeignKey(RecieveInfo, on_delete=models.CASCADE)
 	order = models.ForeignKey(Order, related_name='order_deliver', on_delete=models.CASCADE)
 	logistics = models.CharField(max_length=40, verbose_name='logistics_company')
+	expressnumber = models.CharField(max_length=15, unique=True, default='')
