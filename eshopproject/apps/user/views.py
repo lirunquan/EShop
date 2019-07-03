@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 import datetime
 from apps.cart.models import Cart
+from alipay import AliPay
 # Create your views here.
 
 @csrf_exempt
@@ -49,6 +50,8 @@ def login(request):
 				ret['msg'] = 'the clerk does not exists.'
 			elif len(clerk)==1 :
 				if clerk[0].isOnline :
+					request.session['user_id'] = clerk[0].username
+					request.session['user_group'] = clerk[0].group
 					ret['result'] = 2
 					ret['msg'] = 'clerk has logged in.'
 				else :
@@ -79,7 +82,7 @@ def register(request):
 		pwd = data['password']
 		group = data['group']
 		rname = data['realname']
-		if group=='Clerk':
+		if group=='0':
 			jnum = data['jobnumber']
 			clerk = Clerk.objects.get_or_create(username=uname, password=pwd, group=group, realName=rname, jobnumber=jnum, lastLogin=datetime.datetime.fromtimestamp(0))
 			if clerk[1]:
@@ -88,7 +91,7 @@ def register(request):
 			else:
 				ret['result'] = -1
 				ret['msg'] = 'clerk already exist.'
-		elif group=='Customer':
+		elif group=='1':
 			phone = data['phone']
 			email = data['email']
 			customer = Customer.objects.get_or_create(username=uname, password=pwd, group=group, realName=rname, phone=phone, email=email, lastLogin=datetime.datetime.fromtimestamp(0))
@@ -116,7 +119,7 @@ def changepwd(request):
 		else:
 			oldpwd = data['old_password']
 			newpwd = data['new_password']
-			if group=='Customer' :
+			if group=='1' :
 				customer = Customer.objects.filter(username=uname)
 				if len(customer)==0 :
 					ret['result'] = -2
@@ -134,7 +137,7 @@ def changepwd(request):
 					else :
 						ret['result'] = -4
 						ret['msg'] = 'the customer needs login.'
-			elif group=='Clerk' :
+			elif group=='0' :
 				clerk = Clerk.objects.filter(username=uname)
 				if len(clerk)==0 :
 					ret['result'] = -1
@@ -167,7 +170,7 @@ def checkinfo(request):
 		except Exception as e:
 			return JsonResponse({'request': -4, 'msg': 'needs login.'})
 		else:
-			if group=='Customer' :
+			if group=='1' :
 				customer = Customer.objects.filter(username=uname)
 				if len(customer)==0 :
 					ret['result'] = -2
@@ -185,7 +188,7 @@ def checkinfo(request):
 					else :
 						ret['result'] = -4
 						ret['msg'] = 'the customer needs login.'
-			elif group=='Clerk' :
+			elif group=='0' :
 				clerk = Clerk.objects.filter(username=uname)
 				if len(clerk)==0 :
 					ret['result'] = -2
@@ -215,7 +218,7 @@ def changeinfo(request):
 		except Exception as e:
 			return JsonResponse({'request': -4, 'msg': 'needs login.'})
 		else:
-			if group=='Customer' :
+			if group=='1' :
 				customer = Customer.objects.filter(username=uname)
 				if len(customer)==0 :
 					ret['result'] = -2
@@ -234,7 +237,7 @@ def changeinfo(request):
 					else :
 						ret['result'] = -4
 						ret['msg'] = 'the customer needs login.'
-			elif group=='Clerk' :
+			elif group=='0' :
 				clerk = Clerk.objects.filter(username=uname)
 				if len(clerk)==0 :
 					ret['result'] = -2
@@ -264,7 +267,8 @@ def charge(request):
 		except Exception as e:
 			return JsonResponse({'request': -4, 'msg': 'needs login.'})
 		else:
-			if group=='Customer' :
+			#need to add alipay here.
+			if group=='1' :
 				customer = Customer.objects.filter(username=uname)
 				if len(customer)==0 :
 					ret['result'] = -2
@@ -290,10 +294,12 @@ def logout(request):
 		try:
 			uname = request.session['user_id']
 			group = request.session['user_group']
+			#print("%s"%(group))
 		except Exception as e:
 			return JsonResponse({'request': -4, 'msg': 'needs login.'})
 		else:
-			if group=='Customer' :
+			#print(group)
+			if group=='1' :
 				customer = Customer.objects.filter(username=uname)
 				if len(customer)==0 :
 					ret['result'] = -2
@@ -308,8 +314,10 @@ def logout(request):
 					else :
 						ret['result'] = -4
 						ret['msg'] = 'the customer needs login.'
-			elif group=='Clerk' :
+			elif group=='0' :
+				print(group)
 				clerk = Clerk.objects.filter(username=uname)
+				print(len(clerk))
 				if len(clerk)==0 :
 					ret['result'] = -2
 					ret['msg'] = 'the clerk does not exist.'
@@ -437,3 +445,16 @@ def addrcvinfo(request):
 		ret['result'] = -5
 		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
+
+#add Clerk purchase, putaway, takedown Goods
+@csrf_exempt
+def clerk_purchase(request):
+	ret = {'result': 0}
+	if request.method=='POST' :
+		try:
+			uname = request.session['user_id']
+			group = request.session['user_group']
+		except Exception as e:
+			return JsonResponse({'result': -4, 'msg': 'needs login.'})
+		else:
+			data = json.loads(request.body)
