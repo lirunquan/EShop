@@ -286,7 +286,7 @@ def charge(request):
 def logout(request):
 	ret = {'result': 0}
 	if request.method=='POST' :
-		data = json.loads(request.body)
+	#	data = json.loads(request.body)
 		try:
 			uname = request.session['user_id']
 			group = request.session['user_group']
