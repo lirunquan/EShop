@@ -131,3 +131,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, '/alipay_public_key_2048.txt')
+APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, '/app_private_key_2048.txt')
+ALIPAY_APPID = '2016101000653588'
+ALIPAY_URL = 'https://openapi.alipaydev.com/gateway.do'
+ALIPAY_DEBUG = True
