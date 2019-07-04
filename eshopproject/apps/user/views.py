@@ -603,7 +603,7 @@ def clerk_takedown(request):
 				elif len(goods)==1 :
 					if goods[0].isSelling :
 						goods[0].isSelling = False
-						goods.save()
+						goods[0].save()
 						ret['result'] = 1
 						ret['msg'] = 'takedown goods successfully.'
 					else :
