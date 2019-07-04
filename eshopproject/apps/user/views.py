@@ -596,7 +596,7 @@ def clerk_takedown(request):
 			if group=='0':
 				data = json.loads(request.body)
 				i_code = data['isbncode']
-				goods = Goods.objects.filter(isbnCode=isbncode)
+				goods = Goods.objects.filter(isbnCode=i_code)
 				if len(goods)==0 :
 					ret['result'] = -1
 					ret['msg'] = 'goods not exist.'
