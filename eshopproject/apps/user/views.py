@@ -467,7 +467,13 @@ def clerk_purchase(request):
 				totalprice = data['totalprice']
 				producer = data['producer']
 				remarks = data['remarks'] if 'remarks' in data else 'None'
-				purchase = Purchase.objects.get_or_create(clerk=clerk, operation='Purchase', goodsList=goodslist, totalPrice=totalprice, producer=producer, remarks=remarks)
+				p_code = get_random_str()
+				while(True):
+					if(len(Purchase.objects.filter(code=p_code))==0):
+						break
+					else:
+						p_code = get_random_str()
+				purchase = Purchase.objects.get_or_create(code=p_code, clerk=clerk, operation='Purchase', goodsList=goodslist, totalPrice=totalprice, producer=producer, remarks=remarks)
 				if purchase[1]:
 					for g in goodslist:
 						i_code = g['isbncode']
@@ -488,7 +494,7 @@ def clerk_purchase(request):
 					ret['msg'] = 'purchase successfully.'
 				else:
 					ret['result'] = -3
-					ret['msg'] = 'purchase record already exist.'
+					ret['msg'] = 'server error.'
 			else:
 				ret['result'] = -2
 				ret['msg'] = 'you are not a clerk.'
@@ -623,3 +629,9 @@ def clerk_takedown(request):
 		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
 
+def get_random_str():
+	uuid_val = uuid.uuid4()
+	uuid_str = str(uuid_val).encode("utf-8")
+	md5 = hashlib.md5()
+	md5.update(uuid_str)
+	return md5.hexdigest()
