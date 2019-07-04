@@ -15,4 +15,8 @@ urlpatterns = [
     path('changerecieve', views.changercvinfo, name='changerecieve'),
     path('deleterecieve', views.delrcvinfo, name='deleterecieve'),
     path('addrecieve', views.addrcvinfo, name='addrecieve'),
+    path('clerk/purchase', views.clerk_purchase, name='purchase'),
+    path('clerk/deliver', views.clerk_deliver, name='deliver'),
+    path('clerk/putaway', views.clerk_putaway, name='putaway'),
+    path('clerk/takedown', views.clerk_takedown, name='takedown'),
 ]

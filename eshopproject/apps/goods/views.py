@@ -27,6 +27,7 @@ def goods_look(request):
 							'name': g.name,
 							'price': g.price,
 							'picture': g.picture.url,
+							'repertory': g.repertory,
 							'isselling': g.isSelling
 						})
 				#return JsonResponse({'result':1, 'msg': 'show goods', 'goods_list': goods_list})
@@ -39,6 +40,7 @@ def goods_look(request):
 								'name': g.name,
 								'price': g.price,
 								'picture': g.picture.url,
+								'repertory': g.repertory,
 								'isselling': g.isSelling
 							})
 				elif group=='Clerk' :
@@ -48,6 +50,7 @@ def goods_look(request):
 							'name': g.name,
 							'price': g.price,
 							'picture': g.picture.url,
+							'repertory': g.repertory,
 							'isselling': g.isSelling
 						})
 				ret['result'] = 1
@@ -122,6 +125,7 @@ def goods_detail(request):
 				'picture': g[0].picture.url,
 				'detail': g[0].detail,
 				'isselling': g[0].isSelling,
+				'repertory': g[0].repertory,
 				'tags': g[0].tags
 			}
 	else:

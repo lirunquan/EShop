@@ -7,6 +7,7 @@ from django.utils import timezone
 import datetime
 from apps.cart.models import Cart
 from apps.goods.models import Goods
+from apps.order.models import Order
 from apps.record.models import Purchase, Deliver
 from alipay import AliPay
 # Create your views here.
@@ -448,7 +449,7 @@ def addrcvinfo(request):
 		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
 
-#add Clerk purchase, putaway, takedown Goods
+#add Clerk purchase, putaway, takedown, deliver Goods
 @csrf_exempt
 def clerk_purchase(request):
 	ret = {'result': 0}
@@ -459,28 +460,152 @@ def clerk_purchase(request):
 		except Exception as e:
 			return JsonResponse({'result': -4, 'msg': 'needs login.'})
 		else:
-			data = json.loads(request.body)
-			clerk = Clerk.objects.get(username=uname)
-			op = data['operation']
-			goodslist = data['goodslist']
-			totalprice = data['totalprice']
-			producer = data['producer']
-			remarks = data['remarks'] if len(data['remarks']>0) else 'None'
-			purchase = Purchase.objects.get_or_create(clerk=clerk, operation=op, goodsList=goodslist, totalPrice=totalprice, producer=producer, remarks=remarks)
-			if purchase[1]:
-				for g in goodslist:
-					i_code = g['isbncode']
-					cost = g['cost']
-					name = g['name']
-					count = g['count']
-					g_find = Goods.objects.get_or_create(isbnCode=i_code, name=name, cost=cost, repertory=count)
-					if g_find[1]==False :
-						g_find[0].repertory += count
-						g_find[0].cost = (cost+g_find[0].cost)/2
-						g_find[0].save()
-				ret['result'] = 1
-				ret['msg'] = 'purchase successfully.'
+			if group=='0':
+				data = json.loads(request.body)
+				clerk = Clerk.objects.get(username=uname)
+				goodslist = data['goodslist']
+				totalprice = data['totalprice']
+				producer = data['producer']
+				remarks = data['remarks'] if 'remarks' in data else 'None'
+				purchase = Purchase.objects.get_or_create(clerk=clerk, operation='Purchase', goodsList=goodslist, totalPrice=totalprice, producer=producer, remarks=remarks)
+				if purchase[1]:
+					for g in goodslist:
+						i_code = g['isbncode']
+						cost = g['cost']
+						name = g['name']
+						count = g['count']
+						g_find = Goods.objects.get_or_create(isbnCode=i_code, name=name, cost=cost, repertory=count)
+						if g_find[1]==False :
+							g_find[0].repertory += count
+							g_find[0].cost = (cost+g_find[0].cost)/2
+							g_find[0].save()
+					ret['result'] = 1
+					ret['msg'] = 'purchase successfully.'
+			else:
+				ret['result'] = -2
+				ret['msg'] = 'you are not a clerk.'
 	else :
 		ret['result'] = -5
 		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
+@csrf_exempt
+def clerk_deliver(request):
+	ret = {'result': 0}
+	if request.method=='POST' :
+		try:
+			uname = request.session['user_id']
+			group = request.session['user_group']
+		except Exception as e:
+			return JsonResponse({'result': -4, 'msg': 'needs login.'})
+		else:
+			if group=='0':
+				data = json.loads(request.body)
+				clerk = Clerk.objects.get(username=uname)
+				order_code = data['code']
+				logistics = data['logistics']
+				expressnumber = data['expressnumber']
+				remarks = data['remarks'] if 'remarks' in data else 'None'
+				order = Order.objects.filter(code=order_code)
+				if len(order)==0:
+					ret['result'] = -1
+					ret['msg'] = 'order not exist.'
+				elif len(order)==1 :
+					#customer = order.customer
+					rcvinfo = order[0].rcvInfo
+					can_deliver = True
+					for g in order[0].goodsList :
+						g_order = Goods.objects.get(isbnCode=g['isbncode'])
+						if g_order.repertory<g['number'] :
+							can_deliver = False
+							break;
+					if can_deliver:
+						deliver = Deliver.objects.get_or_create(clerk=clerk, logistics=logistics, expressnumber=expressnumber, order=order[0], recieveInfo=rcvinfo, operation='Deliver', remarks=remarks)
+						if deliver[1]:
+							for g_deliver in deliver[0].order.goodsList :
+								goods = Goods.objects.get(isbnCode=g_deliver['isbncode'])
+								goods.repertory -= g_deliver['number']
+								goods.save()
+							ret['result'] = 1
+							ret['msg'] = 'add deliver successfully.'
+						else :
+							ret['result'] = -3
+							ret['msg'] = 'deliver record already exist.'
+					else :
+						ret['result'] = -6
+						ret['msg'] = 'lack of repertory, could not deliver.'
+			else:
+				ret['result'] = -2
+				ret['msg'] = 'you are not a clerk.'
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
+	return JsonResponse(ret)
+@csrf_exempt
+def clerk_putaway(request):
+	ret = {'result': 0}
+	if request.method=='POST' :
+		try:
+			uname = request.session['user_id']
+			group = request.session['user_group']
+		except Exception as e:
+			return JsonResponse({'result': -4, 'msg': 'needs login.'})
+		else:
+			if group=='0':
+				data = json.loads(request.body)
+				i_code = data['isbncode']
+				price = data['price']
+				goods = Goods.objects.filter(isbnCode=isbncode)
+				if len(goods)==0 :
+					ret['result'] = -1
+					ret['msg'] = 'goods not exist.'
+				elif len(goods)==1 :
+					if goods[0].repertory>1 :
+						goods[0].price = price
+						goods[0].isSelling = True
+						goods[0].save()
+						ret['result'] = 1
+						ret['msg'] = 'putaway goods successfully.'
+					else :
+						ret['result'] = -3
+						ret['msg'] = 'lack of goods repertory, could not putaway.'
+			else:
+				ret['result'] = -2
+				ret['msg'] = 'you are not a clerk.'
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
+	return JsonResponse(ret)
+@csrf_exempt
+def clerk_takedown(request):
+	ret = {'result': 0}
+	if request.method=='POST' :
+		try:
+			uname = request.session['user_id']
+			group = request.session['user_group']
+		except Exception as e:
+			return JsonResponse({'result': -4, 'msg': 'needs login.'})
+		else:
+			if group=='0':
+				data = json.loads(request.body)
+				i_code = data['isbncode']
+				goods = Goods.objects.filter(isbnCode=isbncode)
+				if len(goods)==0 :
+					ret['result'] = -1
+					ret['msg'] = 'goods not exist.'
+				elif len(goods)==1 :
+					if goods[0].isSelling :
+						goods[0].isSelling = False
+						goods.save()
+						ret['result'] = 1
+						ret['msg'] = 'takedown goods successfully.'
+					else :
+						ret['result'] = -3
+						ret['msg'] = 'goods is not selling.'
+			else:
+				ret['result'] = -2
+				ret['msg'] = 'you are not a clerk.'
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
+	return JsonResponse(ret)
+
