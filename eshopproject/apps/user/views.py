@@ -529,10 +529,13 @@ def clerk_deliver(request):
 					if can_deliver:
 						deliver = Deliver.objects.get_or_create(clerk=clerk, logistics=logistics, expressnumber=expressnumber, order=order[0], recieveInfo=rcvinfo, operation='Deliver', remarks=remarks)
 						if deliver[1]:
-							for g_deliver in deliver[0].order.goodsList :
+							d_order = deliver[0].order
+							for g_deliver in d_order.goodsList :
 								goods = Goods.objects.get(isbnCode=g_deliver['isbncode'])
 								goods.repertory -= g_deliver['number']
 								goods.save()
+							d_order.isDelivered = True
+							d_order.save()
 							ret['result'] = 1
 							ret['msg'] = 'add deliver successfully.'
 						else :
