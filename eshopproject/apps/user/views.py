@@ -518,32 +518,35 @@ def clerk_deliver(request):
 					ret['result'] = -1
 					ret['msg'] = 'order not exist.'
 				elif len(order)==1 :
-					#customer = order.customer
-					rcvinfo = order[0].rcvInfo
-					can_deliver = True
-					for g in order[0].goodsList :
-						g_order = Goods.objects.get(isbnCode=g['isbncode'])
-						if g_order.repertory<g['number'] :
-							can_deliver = False
-							break;
-					if can_deliver:
-						deliver = Deliver.objects.get_or_create(clerk=clerk, logistics=logistics, expressnumber=expressnumber, order=order[0], recieveInfo=rcvinfo, operation='Deliver', remarks=remarks)
-						if deliver[1]:
-							d_order = deliver[0].order
-							for g_deliver in d_order.goodsList :
-								goods = Goods.objects.get(isbnCode=g_deliver['isbncode'])
-								goods.repertory -= g_deliver['number']
-								goods.save()
-							d_order.isDelivered = True
-							d_order.save()
-							ret['result'] = 1
-							ret['msg'] = 'add deliver successfully.'
-						else :
-							ret['result'] = -3
-							ret['msg'] = 'deliver record already exist.'
+					if order[0].isDelivered :
+						ret['result'] = -3
+						ret['msg'] = 'order already delivered.'
 					else :
-						ret['result'] = -6
-						ret['msg'] = 'lack of repertory, could not deliver.'
+						rcvinfo = order[0].rcvInfo
+						can_deliver = True
+						for g in order[0].goodsList :
+							g_order = Goods.objects.get(isbnCode=g['isbncode'])
+							if g_order.repertory<g['number'] :
+								can_deliver = False
+								break;
+						if can_deliver:
+							deliver = Deliver.objects.get_or_create(clerk=clerk, logistics=logistics, expressnumber=expressnumber, order=order[0], recieveInfo=rcvinfo, operation='Deliver', remarks=remarks)
+							if deliver[1]:
+								d_order = deliver[0].order
+								for g_deliver in d_order.goodsList :
+									goods = Goods.objects.get(isbnCode=g_deliver['isbncode'])
+									goods.repertory -= g_deliver['number']
+									goods.save()
+								d_order.isDelivered = True
+								d_order.save()
+								ret['result'] = 1
+								ret['msg'] = 'add deliver successfully.'
+							else :
+								ret['result'] = -3
+								ret['msg'] = 'deliver record already exist.'
+						else :
+							ret['result'] = -6
+							ret['msg'] = 'lack of repertory, could not deliver.'
 			else:
 				ret['result'] = -2
 				ret['msg'] = 'you are not a clerk.'
