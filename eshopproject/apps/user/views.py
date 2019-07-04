@@ -562,7 +562,7 @@ def clerk_putaway(request):
 				data = json.loads(request.body)
 				i_code = data['isbncode']
 				price = data['price']
-				goods = Goods.objects.filter(isbnCode=isbncode)
+				goods = Goods.objects.filter(isbnCode=i_code)
 				if len(goods)==0 :
 					ret['result'] = -1
 					ret['msg'] = 'goods not exist.'
