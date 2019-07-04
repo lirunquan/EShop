@@ -486,6 +486,9 @@ def clerk_purchase(request):
 							g_find[0].save()
 					ret['result'] = 1
 					ret['msg'] = 'purchase successfully.'
+				else:
+					ret['result'] = -3
+					ret['msg'] = 'purchase record already exist.'
 			else:
 				ret['result'] = -2
 				ret['msg'] = 'you are not a clerk.'
