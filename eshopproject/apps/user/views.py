@@ -474,8 +474,13 @@ def clerk_purchase(request):
 						cost = g['cost']
 						name = g['name']
 						count = g['number']
-						g_find = Goods.objects.get_or_create(isbnCode=i_code, name=name, cost=cost, repertory=count)
-						if g_find[1]==False :
+						g_find = Goods.objects.get_or_create(isbnCode=i_code)
+						if g_find[1] :
+							g_find[0].name = name
+							g_find[0].repertory = count
+							g_find[0].cost = cost
+							g_find[0].save()
+						else:
 							g_find[0].repertory += count
 							g_find[0].cost = cost
 							g_find[0].save()
