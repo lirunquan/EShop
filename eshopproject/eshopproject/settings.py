@@ -132,8 +132,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 
-ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, '/apps/pay/keys/alipay_public_key_2048.pem')
-APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, '/apps/pay/keys/app_private_key_2048.pem')
+ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/keys/alipay_public_key_2048.pem')
+APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/keys/app_private_key_2048.pem')
 ALIPAY_APPID = '2016101000653588'
 ALIPAY_URL = 'https://openapi.alipaydev.com/gateway.do'
 ALIPAY_DEBUG = True

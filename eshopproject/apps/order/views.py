@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Order
+from .models import Order, AliPayOrder
 import json, random
 from apps.user.models import Customer, RecieveInfo
 from django.views.decorators.csrf import csrf_exempt
+from alipay import AliPay
+from django.conf import settings
 # Create your views here.
 @csrf_exempt
 def checkorderbyuser(request):
@@ -177,20 +179,49 @@ def getpaid(request):
 					ret['msg'] = 'order already paid.'
 				else :
 					if order[0].payment_method==1:
-						if customer.account>=order[0].totalPrice:
-							customer.account -= float(order[0].totalPrice)
-							order[0].isPaid = True
-							customer.save()
-							order[0].save()
-							ret['result'] = 1
-							ret['msg'] = 'order get paid successfully.'
-						else :
-							ret['result'] = -6
-							ret['msg'] = 'lack of balance, charge please.'
+						alipay_client = AliPay(
+							appid=settings.ALIPAY_APPID,
+							app_notify_url = None,
+							app_private_key_path = settings.APP_PRIVATE_KEY_PATH,
+							alipay_public_key_path = settings.ALIPAY_PUBLIC_KEY_PATH,
+							sign_type="RSA2",debug=settings.ALIPAY_DEBUG
+							)
+						order_string = alipay_client.api_alipay_trade_page_pay(
+							out_trade_no = order[0].code,
+							total_amount = str(order[0].totalPrice,),
+							subject = "ESHOP 订单："+order[0].code,
+							return_url = "http://120.78.66.220:8080/order/getpaid",
+							notify_url = None
+							)
+						pay_url = settings.ALIPAY_URL+'?'+order_string
+						ret['result'] = 1
+						ret['msg'] = 'get alipay url.'
+						ret['alipayurl'] = pay_url
 					else : 
 						ret['result'] = 0
 						ret['msg'] = 'no need to pay online.'
-	else:
-		ret['result'] = -5
-		ret['msg'] = 'needs POST request'
+	elif request.method=='GET':
+		alipay_ret_data = request.query_params
+		if not alipay_ret_data:
+			return JsonResponse({'result': -5, 'msg': 'needs POST request'})
+		alipay_ret_dic = alipay_ret_data.dict()
+		sign = alipay_ret_dic.pop('sign')
+		alipay_client = AliPay(
+			appid=settings.ALIPAY_APPID,
+			app_notify_url = None,
+			app_private_key_path = settings.APP_PRIVATE_KEY_PATH,
+			alipay_public_key_path = settings.ALIPAY_PUBLIC_KEY_PATH,
+			sign_type="RSA2",debug=settings.ALIPAY_DEBUG
+			)
+		res = alipay_client.verify(alipay_ret_dic, sign)
+		if result :
+			out_trade_no = alipay_ret_dic.get('out_trade_no')
+			trade_no = alipay_ret_dic.get('trade_no')
+			ali_order = AliPayOrder.objects.get_or_create(order_code=out_trade_no, alipay_out_trade_no=out_trade_no, alipay_trade_no=trade_no)
+			order = Order.objects.filter(code=out_trade_no)
+			if len(order)==1:
+				order[0].isPaid = True
+				order[0].save()
+			else :
+				return JsonResponse({'result': -1, 'msg': 'failed to locate order.'})
 	return JsonResponse(ret)

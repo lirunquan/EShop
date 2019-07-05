@@ -658,7 +658,24 @@ def clerk_upload_img(request):
 			return JsonResponse({'result': -4, 'msg': 'needs login.'})
 		else:
 			if group=='0':
-				pass
+				img = request.FILES.get("image", None)
+				i_code = request.FILES.get("isbncode", "")
+				if not img :
+					return JsonResponse({'result': -3, 'msg': 'no file found.'})
+				if len(i_code)==0 :
+					return JsonResponse({'result': -3, 'msg': 'no isbncode found.'})
+				g = Goods.objects.filter(isbnCode=i_code)
+				if len(g)==0 :
+					return JsonResponse({'result': -1, 'msg': 'goods does not exist.'})
+				if len(g)==1 :
+					with open('goods/'+i_code+'/pic.png', 'wb+') as destination :
+						for line in img.chunks() :
+							destination.write(line)
+					destination.close()
+					g.picture = 'goods/'+i_code+'/pic.png'
+					g.save()
+					ret['result'] = 1
+					ret['msg'] = 'upload image successfully.'
 			else:
 				ret['result'] = -2
 				ret['msg'] = 'you are not a clerk.'
