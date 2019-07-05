@@ -30,7 +30,7 @@ def goods_look(request):
 							'repertory': g.repertory,
 							'isselling': g.isSelling
 						})
-				#return JsonResponse({'result':1, 'msg': 'show goods', 'goods_list': goods_list})
+				return JsonResponse({'result':1, 'msg': 'show goods', 'goods_list': goods_list})
 			else:
 				if group=='1':
 					for g in goods :
