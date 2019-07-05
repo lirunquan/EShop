@@ -432,7 +432,7 @@ def recieveorder(request):
 		else:
 			data = json.loads(request.body)
 			order_code = data['code']
-			order = Order.objects.filter(code=code)
+			order = Order.objects.filter(code=order_code)
 			if len(order)==0:
 				ret['result'] = -2
 				ret['msg'] = 'order does not exist.'
@@ -457,7 +457,7 @@ def cancelorder(request):
 		else:
 			data = json.loads(request.body)
 			order_code = data['code']
-			order = Order.objects.filter(code=code)
+			order = Order.objects.filter(code=order_code)
 			if len(order)==0:
 				ret['result'] = -2
 				ret['msg'] = 'order does not exist.'
@@ -469,6 +469,7 @@ def cancelorder(request):
 	else :
 		ret['result'] = -5
 		ret['msg'] = 'need POST request.'
+	return JsonResponse(ret)
 #add Clerk purchase, putaway, takedown, deliver Goods
 @csrf_exempt
 def clerk_purchase(request):
