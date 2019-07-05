@@ -101,7 +101,7 @@ def register(request):
 			email = data['email']
 			customer = Customer.objects.get_or_create(username=uname, password=pwd, group=group, realName=rname, phone=phone, email=email, lastLogin=datetime.datetime.fromtimestamp(0))
 			if customer[1]:
-				cart = Cart.objects.get_or_create(owner=customer[1])
+				cart = Cart.objects.get_or_create(customer=customer[1])
 				ret['result'] = 1
 				ret['msg'] = 'customer register successfully.'
 			else:
