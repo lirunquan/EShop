@@ -85,7 +85,7 @@ def register(request):
 		pwd = data['password']
 		group = data['group']
 		rname = data['realname']
-		if group=='0':
+		if group=='Customer':
 			jnum = data['jobnumber']
 			clerk = Clerk.objects.get_or_create(username=uname, password=pwd, group=group, realName=rname, jobnumber=jnum, lastLogin=datetime.datetime.fromtimestamp(0))
 			if clerk[1]:
@@ -94,7 +94,7 @@ def register(request):
 			else:
 				ret['result'] = -1
 				ret['msg'] = 'clerk already exist.'
-		elif group=='1':
+		elif group=='Clerk':
 			phone = data['phone']
 			email = data['email']
 			customer = Customer.objects.get_or_create(username=uname, password=pwd, group=group, realName=rname, phone=phone, email=email, lastLogin=datetime.datetime.fromtimestamp(0))
