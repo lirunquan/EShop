@@ -211,6 +211,7 @@ def getpaid(request):
 			if len(order)==1:
 				order[0].isPaid = True
 				order[0].save()
+				return JsonResponse({'result': 2, 'msg': 'order get paid.'})
 			else :
 				return JsonResponse({'result': -1, 'msg': 'failed to locate order.'})
 	return JsonResponse(ret)
