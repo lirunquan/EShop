@@ -87,7 +87,7 @@ def register(request):
 		pwd = data['password']
 		group = data['group']
 		rname = data['realname']
-		if group=='Customer':
+		if group=='Clerk':
 			jnum = data['jobnumber']
 			clerk = Clerk.objects.get_or_create(username=uname, password=pwd, group=group, realName=rname, jobnumber=jnum, lastLogin=datetime.datetime.fromtimestamp(0))
 			if clerk[1]:
@@ -96,7 +96,7 @@ def register(request):
 			else:
 				ret['result'] = -1
 				ret['msg'] = 'clerk already exist.'
-		elif group=='Clerk':
+		elif group=='Customer':
 			phone = data['phone']
 			email = data['email']
 			customer = Customer.objects.get_or_create(username=uname, password=pwd, group=group, realName=rname, phone=phone, email=email, lastLogin=datetime.datetime.fromtimestamp(0))
@@ -303,7 +303,7 @@ def logout(request):
 		except Exception as e:
 			return JsonResponse({'request': -4, 'msg': 'needs login.'})
 		else:
-			#print(group)
+			print(group)
 			if group=='1' :
 				customer = Customer.objects.filter(username=uname)
 				if len(customer)==0 :
@@ -320,9 +320,9 @@ def logout(request):
 						ret['result'] = -4
 						ret['msg'] = 'the customer needs login.'
 			elif group=='0' :
-				print(group)
+			#	print(group)
 				clerk = Clerk.objects.filter(username=uname)
-				print(len(clerk))
+			#	print(len(clerk))
 				if len(clerk)==0 :
 					ret['result'] = -2
 					ret['msg'] = 'the clerk does not exist.'
