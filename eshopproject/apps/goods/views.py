@@ -32,7 +32,7 @@ def goods_look(request):
 						})
 				#return JsonResponse({'result':1, 'msg': 'show goods', 'goods_list': goods_list})
 			else:
-				if group=='Customer':
+				if group=='1':
 					for g in goods :
 						if g.isSelling :
 							goods_list.append({
@@ -43,7 +43,7 @@ def goods_look(request):
 								'repertory': g.repertory,
 								'isselling': g.isSelling
 							})
-				elif group=='Clerk' :
+				elif group=='0' :
 					for g in goods :
 						goods_list.append({
 							'isbncode': g.isbnCode,
