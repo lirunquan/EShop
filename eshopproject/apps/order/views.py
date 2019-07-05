@@ -201,11 +201,8 @@ def getpaid(request):
 						ret['result'] = 0
 						ret['msg'] = 'no need to pay online.'
 	elif request.method=='GET':
-		alipay_ret_data = request.query_params
-		if not alipay_ret_data:
+		if len(request.GET)==0:
 			return JsonResponse({'result': -5, 'msg': 'needs POST request'})
-		alipay_ret_dic = alipay_ret_data.dict()
-		sign = alipay_ret_dic.pop('sign')
 		alipay_client = AliPay(
 			appid=settings.ALIPAY_APPID,
 			app_notify_url = None,
@@ -213,6 +210,8 @@ def getpaid(request):
 			alipay_public_key_path = settings.ALIPAY_PUBLIC_KEY_PATH,
 			sign_type="RSA2",debug=settings.ALIPAY_DEBUG
 			)
+		alipay_ret_dic = request.GET
+		sign = request.GET.get('sign')
 		res = alipay_client.verify(alipay_ret_dic, sign)
 		if result :
 			out_trade_no = alipay_ret_dic.get('out_trade_no')
