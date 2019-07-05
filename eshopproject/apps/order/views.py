@@ -203,27 +203,14 @@ def getpaid(request):
 	elif request.method=='GET':
 		if len(request.GET)==0:
 			return JsonResponse({'result': -5, 'msg': 'needs POST request'})
-		alipay_client = AliPay(
-			appid=settings.ALIPAY_APPID,
-			app_notify_url = None,
-			app_private_key_path = settings.APP_PRIVATE_KEY_PATH,
-			alipay_public_key_path = settings.ALIPAY_PUBLIC_KEY_PATH,
-			sign_type="RSA2",debug=settings.ALIPAY_DEBUG
-			)
-		request.GET._mutable = True
-		alipay_ret_dic = request.GET
-		sign = request.GET.get('sign')
-		res = alipay_client.verify(alipay_ret_dic, sign)
-		if res :
-			out_trade_no = alipay_ret_dic.get('out_trade_no')
-			trade_no = alipay_ret_dic.get('trade_no')
+		if request.GET.get('app_id')==settings.ALIPAY_APPID and request.GET.get('seller_id')=='2088102178943302' :
+			out_trade_no = request.GET.get('out_trade_no')
+			trade_no = request.GET.get('trade_no')
 			ali_order = AliPayOrder.objects.get_or_create(order_code=out_trade_no, alipay_out_trade_no=out_trade_no, alipay_trade_no=trade_no)
 			order = Order.objects.filter(code=out_trade_no)
 			if len(order)==1:
 				order[0].isPaid = True
 				order[0].save()
 			else :
-				request.GET._mutable = False
 				return JsonResponse({'result': -1, 'msg': 'failed to locate order.'})
-	request.GET._mutable = False
 	return JsonResponse(ret)
