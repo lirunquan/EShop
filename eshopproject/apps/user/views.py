@@ -556,7 +556,13 @@ def clerk_deliver(request):
 								can_deliver = False
 								break;
 						if can_deliver:
-							deliver = Deliver.objects.get_or_create(clerk=clerk, logistics=logistics, expressnumber=expressnumber, order=order[0], recieveInfo=rcvinfo, operation='Deliver', remarks=remarks)
+							d_code = get_random_str()
+							while(True):
+								if(len(Deliver.objects.filter(code=p_code))==0):
+									break
+								else:
+									d_code = get_random_str()
+							deliver = Deliver.objects.get_or_create(code=d_code, clerk=clerk, logistics=logistics, expressnumber=expressnumber, order=order[0], recieveInfo=rcvinfo, operation='Deliver', remarks=remarks)
 							if deliver[1]:
 								d_order = deliver[0].order
 								for g_deliver in d_order.goodsList :
