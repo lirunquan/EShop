@@ -466,7 +466,7 @@ def clerk_purchase(request):
 				data = json.loads(request.body)
 				clerk = Clerk.objects.get(username=uname)
 				goodslist = data['goodslist']
-				totalprice = data['totalprice']
+				totalprice = data['totalcost']
 				producer = data['producer']
 				remarks = data['remarks'] if 'remarks' in data else 'None'
 				p_code = get_random_str()
