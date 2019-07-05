@@ -210,10 +210,11 @@ def getpaid(request):
 			alipay_public_key_path = settings.ALIPAY_PUBLIC_KEY_PATH,
 			sign_type="RSA2",debug=settings.ALIPAY_DEBUG
 			)
+		request.GET._mutable = True
 		alipay_ret_dic = request.GET
 		sign = request.GET.get('sign')
 		res = alipay_client.verify(alipay_ret_dic, sign)
-		if result :
+		if res :
 			out_trade_no = alipay_ret_dic.get('out_trade_no')
 			trade_no = alipay_ret_dic.get('trade_no')
 			ali_order = AliPayOrder.objects.get_or_create(order_code=out_trade_no, alipay_out_trade_no=out_trade_no, alipay_trade_no=trade_no)
@@ -222,5 +223,7 @@ def getpaid(request):
 				order[0].isPaid = True
 				order[0].save()
 			else :
+				request.GET._mutable = False
 				return JsonResponse({'result': -1, 'msg': 'failed to locate order.'})
+	request.GET._mutable = False
 	return JsonResponse(ret)
