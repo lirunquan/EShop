@@ -16,8 +16,7 @@ class Record(models.Model):
 
 class Purchase(Record):
 	goodsList = JSONField()
-	totalPrice = models.DecimalField(max_digits=12, decimal_places=2, verbose_name='total_price')
-	producer = models.TextField(default='')
+	totalCost = models.DecimalField(max_digits=12, decimal_places=2, verbose_name='total_cost')
 
 class Deliver(Record):
 	recieveInfo = models.ForeignKey(RecieveInfo, on_delete=models.CASCADE)

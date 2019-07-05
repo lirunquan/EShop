@@ -10,6 +10,7 @@ class Goods(models.Model):
 	name = models.CharField(max_length=50, verbose_name='name')
 	cost = models.FloatField(verbose_name='进货价', default=0.0)
 	price = models.FloatField(verbose_name='price', default=0.0)
+	producer = models.TextField(default='')
 	params = JSONField()
 	picture = models.ImageField(upload_to=pic_path_name, blank=True, default='goods/default.png')
 	detail = HTMLField(max_length=200, verbose_name='details(.html)')
