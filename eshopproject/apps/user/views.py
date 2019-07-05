@@ -89,7 +89,7 @@ def register(request):
 		rname = data['realname']
 		if group=='Clerk':
 			jnum = data['jobnumber']
-			clerk = Clerk.objects.get_or_create(username=uname, password=pwd, group=group, realName=rname, jobnumber=jnum, lastLogin=datetime.datetime.fromtimestamp(0))
+			clerk = Clerk.objects.get_or_create(username=uname, password=pwd, group='0', realName=rname, jobnumber=jnum, lastLogin=datetime.datetime.fromtimestamp(0))
 			if clerk[1]:
 				ret['result'] = 1
 				ret['msg'] = 'clerk register successfully.'
@@ -99,7 +99,7 @@ def register(request):
 		elif group=='Customer':
 			phone = data['phone']
 			email = data['email']
-			customer = Customer.objects.get_or_create(username=uname, password=pwd, group=group, realName=rname, phone=phone, email=email, lastLogin=datetime.datetime.fromtimestamp(0))
+			customer = Customer.objects.get_or_create(username=uname, password=pwd, group='1', realName=rname, phone=phone, email=email, lastLogin=datetime.datetime.fromtimestamp(0))
 			if customer[1]:
 				cart = Cart.objects.get_or_create(customer=customer[1])
 				ret['result'] = 1
