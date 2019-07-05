@@ -26,6 +26,7 @@ def goods_look(request):
 							'isbncode': g.isbnCode,
 							'name': g.name,
 							'price': g.price,
+							'producer': g.producer,
 							'picture': g.picture.url,
 							'repertory': g.repertory,
 							'isselling': g.isSelling
@@ -39,6 +40,7 @@ def goods_look(request):
 								'isbncode': g.isbnCode,
 								'name': g.name,
 								'price': g.price,
+								'producer': g.producer,
 								'picture': g.picture.url,
 								'repertory': g.repertory,
 								'isselling': g.isSelling
@@ -50,6 +52,7 @@ def goods_look(request):
 							'name': g.name,
 							'cost': g.cost,
 							'price': g.price,
+							'producer': g.producer,
 							'picture': g.picture.url,
 							'repertory': g.repertory,
 							'isselling': g.isSelling
@@ -122,6 +125,7 @@ def goods_detail(request):
 				'name': g[0].name,
 				'isbncode': g[0].isbnCode,
 				'price': g[0].price,
+				'producer': g[0].producer,
 				'params': g[0].params,
 				'picture': g[0].picture.url,
 				'detail': g[0].detail,

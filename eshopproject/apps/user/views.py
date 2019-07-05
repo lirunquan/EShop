@@ -262,36 +262,6 @@ def changeinfo(request):
 		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
 @csrf_exempt
-def charge(request):
-	ret = {'result': 0}
-	if request.method=='POST' :
-		data = json.loads(request.body)
-		try:
-			uname = request.session['user_id']
-			group = request.session['user_group']
-		except Exception as e:
-			return JsonResponse({'request': -4, 'msg': 'needs login.'})
-		else:
-			#need to add alipay here.
-			if group=='1' :
-				customer = Customer.objects.filter(username=uname)
-				if len(customer)==0 :
-					ret['result'] = -2
-					ret['msg'] = 'the customer does not exist.'
-				elif len(customer)==1 :
-					if customer[0].isOnline :
-						customer[0].account += data['amount']
-						customer[0].save()
-						ret['result'] = 1
-						ret['msg'] = 'charge successfully.'
-					else :
-						ret['result'] = -4
-						ret['msg'] = 'the customer needs login.'
-	else:
-		ret['result'] = -5
-		ret['msg'] = 'need POST request.'
-	return JsonResponse(ret);
-@csrf_exempt
 def logout(request):
 	ret = {'result': 0}
 	if request.method=='POST' :
@@ -677,7 +647,25 @@ def clerk_takedown(request):
 		ret['result'] = -5
 		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
-
+@csrf_exempt
+def clerk_upload_img(request):
+	ret = {'result': 0}
+	if request.method=='POST' :
+		try:
+			uname = request.session['user_id']
+			group = request.session['user_group']
+		except Exception as e:
+			return JsonResponse({'result': -4, 'msg': 'needs login.'})
+		else:
+			if group=='0':
+				pass
+			else:
+				ret['result'] = -2
+				ret['msg'] = 'you are not a clerk.'
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
+	return JsonResponse(ret)
 def get_random_str():
 	uuid_val = uuid.uuid4()
 	uuid_str = str(uuid_val).encode("utf-8")

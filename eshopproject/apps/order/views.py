@@ -15,11 +15,31 @@ def checkorderbyuser(request):
 		except Exception as e:
 			return JsonResponse({'request': -4, 'msg': 'needs login.'})
 		else:
-			#data = json.loads(request.body)
 			orderlist = []
-			for order in Order.objects.all():
-				if order.customer.username==uname :
-					orderlist.append({'code':order.code, 'goodslist': order.goodsList, 'totalprice': order.totalPrice, 'ispaid': order.isPaid})
+			if group=='1':
+				for order in Order.objects.all():
+					if order.customer.username==uname :
+						orderlist.append({
+							'code':order.code,
+							'goodslist': order.goodsList, 
+							'totalprice': order.totalPrice, 
+							'ispaid': order.isPaid,
+							'isdelivered': order.isDelivered,
+							'isrecieved': order.isRecieved,
+							'isCanceled': order.isCanceled
+							})
+			elif group=='0' :
+				for order in Order.objects.all():
+					orderlist.append({
+							'customer': order.customer.username,
+							'code':order.code, 
+							'goodslist': order.goodsList, 
+							'totalprice': order.totalPrice, 
+							'ispaid': order.isPaid,
+							'isdelivered': order.isDelivered,
+							'isrecieved': order.isRecieved,
+							'iscanceled': order.isCanceled
+							})
 			ret['result'] = 1
 			ret['msg'] = 'the orders owned by customer'
 			ret['orders'] = orderlist
