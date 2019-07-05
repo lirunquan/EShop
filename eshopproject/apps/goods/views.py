@@ -48,6 +48,7 @@ def goods_look(request):
 						goods_list.append({
 							'isbncode': g.isbnCode,
 							'name': g.name,
+							'cost': g.cost,
 							'price': g.price,
 							'picture': g.picture.url,
 							'repertory': g.repertory,

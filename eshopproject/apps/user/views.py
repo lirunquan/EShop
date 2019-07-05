@@ -415,8 +415,8 @@ def delrcvinfo(request):
 			if len(rcvinfo)==0 :
 				ret['result'] = -2
 				ret['msg'] = 'the rcv info dose not exist.'
-			elif len(order)==1 :
-				order.delete()
+			elif len(rcvinfo)==1 :
+				rcvicfo[0].delete()
 				ret['result'] = 1
 				ret['msg'] = 'delete successfully.'
 	else :
@@ -450,7 +450,55 @@ def addrcvinfo(request):
 		ret['result'] = -5
 		ret['msg'] = 'need POST request.'
 	return JsonResponse(ret)
-
+@csrf_exempt
+def recieveorder(request):
+	ret = {'result': 0}
+	if request.method=='POST' :
+		try:
+			uname = request.session['user_id']
+			group = request.session['user_group']
+		except Exception as e:	
+			return JsonResponse({'result': -4, 'msg': 'needs login.'})
+		else:
+			data = json.loads(request.body)
+			order_code = data['code']
+			order = Order.objects.filter(code=code)
+			if len(order)==0:
+				ret['result'] = -2
+				ret['msg'] = 'order does not exist.'
+			elif len(order)==1 :
+				order[0].isRecieved = True
+				order[0].save()
+				ret['result'] = 1
+				ret['msg'] = 'recieved order successfully.'
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
+	return JsonResponse(ret)
+@csrf_exempt
+def cancelorder(request):
+	ret = {'result': 0}
+	if request.method=='POST' :
+		try:
+			uname = request.session['user_id']
+			group = request.session['user_group']
+		except Exception as e:	
+			return JsonResponse({'result': -4, 'msg': 'needs login.'})
+		else:
+			data = json.loads(request.body)
+			order_code = data['code']
+			order = Order.objects.filter(code=code)
+			if len(order)==0:
+				ret['result'] = -2
+				ret['msg'] = 'order does not exist.'
+			elif len(order)==1 :
+				order[0].isCanceled = True
+				order[0].save()
+				ret['result'] = 1
+				ret['msg'] = 'canceled order successfully.'
+	else :
+		ret['result'] = -5
+		ret['msg'] = 'need POST request.'
 #add Clerk purchase, putaway, takedown, deliver Goods
 @csrf_exempt
 def clerk_purchase(request):
@@ -466,8 +514,9 @@ def clerk_purchase(request):
 				data = json.loads(request.body)
 				clerk = Clerk.objects.get(username=uname)
 				goodslist = data['goodslist']
-				totalprice = data['totalcost']
-				producer = data['producer']
+				totalcost = 0
+				for g in goodslist :
+					totalcost += float(g['number'])*float(g['cost'])
 				remarks = data['remarks'] if 'remarks' in data else 'None'
 				p_code = get_random_str()
 				while(True):
@@ -475,22 +524,20 @@ def clerk_purchase(request):
 						break
 					else:
 						p_code = get_random_str()
-				purchase = Purchase.objects.get_or_create(code=p_code, clerk=clerk, operation='Purchase', goodsList=goodslist, totalPrice=totalprice, producer=producer, remarks=remarks)
+				purchase = Purchase.objects.get_or_create(code=p_code, clerk=clerk, operation='Purchase', goodsList=goodslist, totalCost=totalcost, remarks=remarks)
 				if purchase[1]:
 					for g in goodslist:
-						i_code = g['isbncode']
-						cost = g['cost']
-						name = g['name']
-						count = g['number']
-						g_find = Goods.objects.get_or_create(isbnCode=i_code)
+						g_find = Goods.objects.get_or_create(isbnCode=g['isbncode'])
 						if g_find[1] :
-							g_find[0].name = name
-							g_find[0].repertory = count
-							g_find[0].cost = cost
+							g_find[0].name = name = g['name']
+							g_find[0].repertory = g['number']
+							g_find[0].cost = g['cost']
+							g_find[0].producer = g['producer']
 							g_find[0].save()
 						else:
-							g_find[0].repertory += count
-							g_find[0].cost = cost
+							g_find[0].repertory += g['number']
+							g_find[0].cost = g['cost']
+							g_find[0].producer = g['producer']
 							g_find[0].save()
 					ret['result'] = 1
 					ret['msg'] = 'purchase successfully.'

@@ -19,6 +19,8 @@ class Order(models.Model):
 	isPaid = models.BooleanField(default=False)
 	payment_method = models.PositiveIntegerField(max_length=2, verbose_name='payment method', choices=p_methods, default=1)
 	isDelivered = models.BooleanField(default=False)
+	isRecieved = models.BooleanField(default=False)
+	isCanceled = models.BooleanField(default=False)
 	remarks = models.TextField(default='None')
 	def __str__(self):
 		return '%s[%s]'%(self.customer.username, self.code)
