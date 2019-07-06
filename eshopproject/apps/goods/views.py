@@ -14,13 +14,13 @@ def goods_look(request):
 		data = json.loads(request.body)
 		num = data['num']
 		goods_list = []
-		goods = Goods.objects.all()[num:num+10]
+		goods = Goods.objects.all()
 		if len(goods)>0:
 			try:
 				uname = request.session['user_id']
 				group = request.session['user_group']
 			except Exception as e:
-				for g in goods :
+				for g in goods[num:num+10] :
 					if g.isSelling :
 						goods_list.append({
 							'isbncode': g.isbnCode,
@@ -34,7 +34,7 @@ def goods_look(request):
 				return JsonResponse({'result':1, 'msg': 'show goods', 'goods_list': goods_list})
 			else:
 				if group=='1':
-					for g in goods :
+					for g in goods[num:num+10] :
 						if g.isSelling :
 							goods_list.append({
 								'isbncode': g.isbnCode,
