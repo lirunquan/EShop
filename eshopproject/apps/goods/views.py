@@ -20,7 +20,7 @@ def goods_look(request):
 				uname = request.session['user_id']
 				group = request.session['user_group']
 			except Exception as e:
-				for g in goods[num:num+10] :
+				for g in goods :
 					if g.isSelling :
 						goods_list.append({
 							'isbncode': g.isbnCode,
@@ -31,10 +31,10 @@ def goods_look(request):
 							'repertory': g.repertory,
 							'isselling': g.isSelling
 						})
-				return JsonResponse({'result':1, 'msg': 'show goods', 'goods_list': goods_list})
+				return JsonResponse({'result':1, 'msg': 'show goods', 'goods_list': goods_list[num:num+10]})
 			else:
 				if group=='1':
-					for g in goods[num:num+10] :
+					for g in goods :
 						if g.isSelling :
 							goods_list.append({
 								'isbncode': g.isbnCode,
@@ -45,6 +45,7 @@ def goods_look(request):
 								'repertory': g.repertory,
 								'isselling': g.isSelling
 							})
+					return JsonResponse({'result':1, 'msg': 'show goods', 'goods_list': goods_list[num:num+10]})
 				elif group=='0' :
 					for g in goods :
 						goods_list.append({
@@ -57,9 +58,7 @@ def goods_look(request):
 							'repertory': g.repertory,
 							'isselling': g.isSelling
 						})
-				ret['result'] = 1
-				ret['msg'] = 'show goods'
-				ret['goods_list'] = goods_list
+					return JsonResponse({'result':1, 'msg': 'show goods', 'goods_list': goods_list})
 		else :
 			ret['result'] = -2
 			ret['msg'] = 'no more goods.'
