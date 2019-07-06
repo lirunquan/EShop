@@ -675,7 +675,8 @@ def clerk_upload_img(request):
 				if len(g)==0 :
 					return JsonResponse({'result': -1, 'msg': 'goods does not exist.'})
 				if len(g)==1 :
-					with open('goods/'+i_code+'/pic.png', 'wb+') as destination :
+					ext = img.name.split('.')[-1]
+					with open('goods/'+i_code+'/pic.'+ext, 'wb+') as destination :
 						for line in img.chunks() :
 							destination.write(line)
 					destination.close()
