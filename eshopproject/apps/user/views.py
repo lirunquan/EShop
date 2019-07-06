@@ -680,7 +680,7 @@ def clerk_upload_img(request):
 						for line in img.chunks() :
 							destination.write(line)
 					destination.close()
-					g.picture = 'goods/'+i_code+'/pic.png'
+					g.picture = 'goods/'+i_code+'/pic.'+ext
 					g.save()
 					ret['result'] = 1
 					ret['msg'] = 'upload image successfully.'
