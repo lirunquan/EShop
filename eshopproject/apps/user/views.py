@@ -558,7 +558,7 @@ def clerk_deliver(request):
 						if can_deliver:
 							d_code = get_random_str()
 							while(True):
-								if(len(Deliver.objects.filter(code=p_code))==0):
+								if(len(Deliver.objects.filter(code=d_code))==0):
 									break
 								else:
 									d_code = get_random_str()
