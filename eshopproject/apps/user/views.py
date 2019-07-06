@@ -608,6 +608,14 @@ def clerk_putaway(request):
 					ret['msg'] = 'goods not exist.'
 				elif len(goods)==1 :
 					if goods[0].repertory>1 :
+						if 'name' in data:
+							goods[0].name = data['name']
+						if 'goodstype' in data:
+							goods[0].gType = data['goodstype']
+						if 'producer' in data :
+							goods[0].producer = data['producer']
+						if 'params' in data :
+							goods[0].params = data['params']
 						goods[0].price = price
 						goods[0].isSelling = True
 						goods[0].save()
