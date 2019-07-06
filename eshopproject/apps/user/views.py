@@ -1,5 +1,7 @@
+import os
 import uuid
 import hashlib
+from django.conf import settings
 from django.shortcuts import render
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -664,9 +666,13 @@ def clerk_upload_img(request):
 		except Exception as e:
 			return JsonResponse({'result': -4, 'msg': 'needs login.'})
 		else:
+			print('post')
+			print(request.POST)
+			print('files')
+			print(request.FILES)
 			if group=='0':
 				img = request.FILES.get("image", None)
-				i_code = request.FILES.get("isbncode", "")
+				i_code = request.POST.get("isbncode", "")
 				if not img :
 					return JsonResponse({'result': -3, 'msg': 'no file found.'})
 				if len(i_code)==0 :
@@ -676,12 +682,18 @@ def clerk_upload_img(request):
 					return JsonResponse({'result': -1, 'msg': 'goods does not exist.'})
 				if len(g)==1 :
 					ext = img.name.split('.')[-1]
-					with open('goods/'+i_code+'/pic.'+ext, 'wb+') as destination :
+					print(ext)
+					path = os.path.join(settings.MEDIA_ROOT, 'goods/pic/'+i_code+'/pic.'+ext)
+					if os.path.exists(path):
+						pass
+					else :
+						os.makedirs(os.path.join(settings.MEDIA_ROOT, 'goods/pic/'+i_code))
+					with open(path, 'wb+') as destination :
 						for line in img.chunks() :
 							destination.write(line)
 					destination.close()
-					g.picture = 'goods/'+i_code+'/pic.'+ext
-					g.save()
+					g[0].picture = 'goods/pic/'+i_code+'/pic.'+ext
+					g[0].save()
 					ret['result'] = 1
 					ret['msg'] = 'upload image successfully.'
 			else:
