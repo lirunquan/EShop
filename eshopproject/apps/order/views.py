@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import Order, AliPayOrder
 import json, random
 from apps.user.models import Customer, RecieveInfo
@@ -211,7 +211,7 @@ def getpaid(request):
 			if len(order)==1:
 				order[0].isPaid = True
 				order[0].save()
-				return JsonResponse({'result': 2, 'msg': 'order get paid.'})
+				return HttpResponse("订单已支付")
 			else :
 				return JsonResponse({'result': -1, 'msg': 'failed to locate order.'})
 	return JsonResponse(ret)
