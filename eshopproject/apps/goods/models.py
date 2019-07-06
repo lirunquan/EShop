@@ -14,7 +14,7 @@ class Goods(models.Model):
 	params = JSONField()
 	picture = models.ImageField(upload_to=pic_path_name, blank=True, default='goods/default.png')
 	detail = HTMLField(max_length=200, verbose_name='details(.html)')
-	repertory = models.PositiveIntegerField(verbose_name='repertory')
+	repertory = models.PositiveIntegerField(verbose_name='repertory', default=0)
 	gType = models.CharField(max_length=20, verbose_name='goods_type')
 	isSelling = models.BooleanField(default=False, blank=False)
 	tags = ListCharField(base_field=models.CharField(max_length=5), size=5, max_length=(5*6))
