@@ -1,8 +1,8 @@
 # EShop
 
 <p>数据库：MySQL</p>
-<p>需要通过 `python3` 安装工具进行安装依赖，</p>
-```Bash
+<p>需要通过 python3 安装工具进行安装依赖，</p>
+```
 pip3 install -r requirements.txt
 ```
 <p>`requirements.txt`中包含</p>
@@ -13,12 +13,12 @@ pip3 install -r requirements.txt
 <p>PyMySQL</p>
 <p>django-restframework</p>
 <p>pytz</p>
-<p>启动时先给 `run.sh` 赋予权限</p>
-```Bash
+<p>启动时先给 run.sh 赋予权限</p>
+```
 chmod a+x run.sh
 ```
 <p>然后之间运行 run.sh </p>
-```Bash
+```
 ./run.sh
 ```
 <p>服务器运行日志打印在 `nohup.out` 中</p>
