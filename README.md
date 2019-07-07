@@ -16,9 +16,7 @@ pip3 install -r requirements.txt
 >python-alipay-sdk
 
 >django-mysql
-
 >PyMySQL
-
 >django-restframework
 
 >pytz
