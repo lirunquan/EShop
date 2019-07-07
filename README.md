@@ -11,14 +11,11 @@ pip3 install -r requirements.txt
 
 ><p>Django==2.2.2</p>
 ><p>Pillow</p>
-
->python-alipay-sdk
-
->django-mysql
->PyMySQL
->django-restframework
-
->pytz
+><p>python-alipay-sdk</p>
+><p>django-mysql</p>
+><p>PyMySQL</p>
+><p>django-restframework</p>
+><p>pytz</p>
 
 启动前先给 `run.sh` 赋予权限</p>
 ```sh
