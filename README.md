@@ -9,14 +9,13 @@ pip3 install -r requirements.txt
 ```
 `requirements.txt`中包含
 
->Django==2.2.2
-
->Pillow
+><p>Django==2.2.2</p>
+><p>Pillow</p>
 
 >python-alipay-sdk
 
->>>django-mysql
->>PyMySQL
+>django-mysql
+>PyMySQL
 >django-restframework
 
 >pytz
