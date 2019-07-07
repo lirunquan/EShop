@@ -2,6 +2,7 @@
 
 <p>数据库：MySQL</p>
 <p>需要通过 python3 安装工具进行安装依赖，</p>
+`create database hero;`
 ```
 pip3 install -r requirements.txt
 ```
@@ -13,7 +14,7 @@ pip3 install -r requirements.txt
 <p>PyMySQL</p>
 <p>django-restframework</p>
 <p>pytz</p>
-<p>启动时先给 run.sh 赋予权限</p>
+<p>启动时先给run.sh 赋予权限</p>
 ```
 chmod a+x run.sh
 ```
