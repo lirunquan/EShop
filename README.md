@@ -1,7 +1,7 @@
 # EShop
 
-数据库：MySQL
-需要通过 python3 安装工具进行安装依赖，\n
+<p>数据库：MySQL</p>
+需要通过 python3 安装工具进行安装依赖，
 pip3 install -r eshopproject/requirements.txt
 requirements.txt 中包含
 Django==2.2.2
